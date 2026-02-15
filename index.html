@@ -30,7 +30,7 @@
             padding-bottom: 20px;
         }
 
-        /* القائمة المنزلقة الجديدة */
+        /* FAB Menu Styling */
         .fab-container {
             position: fixed;
             top: 20px;
@@ -74,22 +74,15 @@
         }
 
         .corner-btn { 
-            padding: 10px; 
-            border-radius: 14px; 
-            background: rgba(30, 41, 59, 0.8); 
-            backdrop-filter: blur(10px); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            color: white; 
-            cursor: pointer;
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 10px; border-radius: 14px; 
+            background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255,255,255,0.1); color: white; cursor: pointer;
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; font-size: 1.2rem;
         }
         .corner-btn:hover { background: var(--primary); transform: scale(1.05); }
 
-        /* اللوجو المتحرك المطور */
+        /* Animated Logo */
         .logo-animated {
             font-size: clamp(2rem, 8vw, 4rem); 
             font-weight: 900; 
@@ -101,14 +94,9 @@
             margin-top: 10px;
             animation: shine 3s linear infinite, floatLogo 4s ease-in-out infinite;
             filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
-            cursor: default;
-            user-select: none;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
+        @keyframes shine { to { background-position: 200% center; } }
         @keyframes floatLogo {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-5px) scale(1.02); }
@@ -125,7 +113,7 @@
         }
         .toggle-btn.active { background: var(--primary); color: white; }
 
-        /* تعديلات المعداد ليناسب الموبايل */
+        /* Abacus Frame */
         .abacus-frame {
             background: var(--wood); padding: 50px 10px 30px; border: 10px solid #1a130e; 
             border-radius: 35px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
@@ -177,8 +165,6 @@
         .level-progress-fill { height: 100%; background: var(--bead-active); transition: width 0.5s ease; }
 
         @media (max-width: 640px) {
-            .logo-animated { margin-top: 10px; margin-bottom: 5px; }
-            .abacus-frame { border-width: 6px; padding-top: 45px; }
             .column { height: 380px; }
             .middle-beam { top: 135px; }
             .idx-1 { top: 165px; } .idx-2 { top: 200px; } .idx-3 { top: 235px; } .idx-4 { top: 270px; }
@@ -187,17 +173,18 @@
 </head>
 <body>
 
-    <!-- القائمة المنزلقة الذكية -->
+    <!-- Dynamic FAB Menu -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-main" onclick="toggleFab()" id="fabMain">⚙️</div>
         <div class="fab-menu" id="fabMenu">
-            <button onclick="showResetMenu()" class="corner-btn" title="Reset">🔄</button>
-            <button onclick="showHistory()" class="corner-btn" title="History">📜</button>
+            <button onclick="showResetMenu()" class="corner-btn">🔄</button>
+            <button onclick="showHistory()" class="corner-btn">📜</button>
             <button onclick="toggleSound()" class="corner-btn" id="soundToggleBtn">🔊</button>
             <button onclick="toggleLanguage()" class="corner-btn" id="langBtn">EN</button>
         </div>
     </div>
 
+    <!-- Universal Modal -->
     <div id="universalModal" class="modal-overlay">
         <div class="modal-content p-6">
             <div id="modalIcon" class="text-5xl mb-3">🌟</div>
@@ -207,32 +194,37 @@
         </div>
     </div>
 
+    <!-- Header & Logo -->
     <div class="text-center">
         <h1 id="appLogo" class="logo-animated">مِعداد الذكاء</h1>
     </div>
 
+    <!-- System Toggle -->
     <div class="system-toggle">
-        <div id="btnManualMode" onclick="switchSystem('manual')" class="toggle-btn">الوضع اليدوي</div>
-        <div id="btnAutoMode" onclick="switchSystem('auto')" class="toggle-btn">المستويات</div>
+        <div id="btnManualMode" onclick="switchSystem('manual')" class="toggle-btn"></div>
+        <div id="btnAutoMode" onclick="switchSystem('auto')" class="toggle-btn"></div>
     </div>
 
+    <!-- Stats Section -->
     <div class="flex flex-wrap justify-center gap-2 mb-4">
         <div id="manualCard" class="stat-card">
-            <span id="manualLabel" class="text-[9px] uppercase font-black text-indigo-400">القاعدة</span>
+            <span id="manualLabel" class="text-[9px] uppercase font-black text-indigo-400"></span>
             <select id="levelSelector" onchange="manualLevelChanged(this.value)" class="bg-slate-900 border-none rounded-lg p-1 text-white font-bold text-[10px] mt-1"></select>
         </div>
         <div id="autoCard" class="stat-card border-amber-500">
-            <span id="autoLabel" class="text-[9px] uppercase font-black text-amber-400">المستوى</span>
+            <span id="autoLabel" class="text-[9px] uppercase font-black text-amber-400"></span>
             <span id="autoLevelBadge" class="text-sm font-black text-amber-200">1</span>
             <div class="level-progress-bar"><div id="progressFill" class="level-progress-fill"></div></div>
         </div>
-        <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy">تحدي جديد 🎯</button>
+        <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy"></button>
     </div>
 
+    <!-- Challenge Box -->
     <div id="challengeBox" class="hidden bg-slate-900/90 border-2 border-amber-500 p-3 rounded-2xl mb-3 shadow-2xl">
         <p id="challengeText" class="text-lg md:text-xl font-black text-amber-400 text-center"></p>
     </div>
 
+    <!-- Status Bar -->
     <div class="flex gap-3 mb-3">
         <div class="bg-slate-800/60 px-3 py-1 rounded-lg border border-rose-500 flex items-center gap-1 text-sm">
             <span>🕒</span><span id="timer" class="font-black">0</span>
@@ -242,8 +234,9 @@
         </div>
     </div>
 
+    <!-- Abacus Grid -->
     <div class="abacus-frame" id="rodsGrid"></div>
-    <button onclick="resetAbacus()" id="btnClear" class="mt-3 text-slate-500 underline text-xs">تصفير المعداد</button>
+    <button onclick="resetAbacus()" id="btnClear" class="mt-3 text-slate-500 underline text-xs"></button>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -259,20 +252,24 @@
             ar: { 
                 logo: "مِعداد الذكاء", manualBtn: "الوضع اليدوي", autoBtn: "المستويات", 
                 startBtn: "تحدي جديد 🎯", success: "أحسنت! 🏆", milestone: "إنجاز مذهل! 💎", 
-                next: "التحدي التالي", colNames: ["ملايين", "١٠٠ألف", "١٠آلاف", "ألف", "مئة", "عشرة", "آحاد"], 
+                next: "التحدي التالي", clearBtn: "تصفير المعداد",
+                colNames: ["ملايين", "١٠٠ألف", "١٠آلاف", "ألف", "مئة", "عشرة", "آحاد"], 
                 levels: ["آحاد", "عشرات", "مئات", "ألوف", "عشرات ألوف", "مئات ألوف", "ملايين"],
                 historyTitle: "سجل الأبطال", resetTitle: "إعادة الضبط", cancel: "إلغاء",
                 resetLevels: "تصفير المستويات", clearHistory: "مسح السجل", resetAll: "إعادة ضبط المصنع",
-                timeTaken: "الوقت:"
+                timeTaken: "الوقت:", challengeLabel: "مثل الرقم: ", 
+                manualCardLabel: "القاعدة", autoCardLabel: "المستوى"
             },
             en: { 
-                logo: "Mind Abacus", manualBtn: "Manual", autoBtn: "Levels", 
-                startBtn: "Challenge 🎯", success: "Well Done! 🏆", milestone: "Amazing! 💎", 
-                next: "Next", colNames: ["Mil", "100K", "10K", "K", "H", "T", "U"], 
+                logo: "Mind Abacus", manualBtn: "Manual Mode", autoBtn: "Levels Mode", 
+                startBtn: "New Challenge 🎯", success: "Well Done! 🏆", milestone: "Amazing! 💎", 
+                next: "Next Challenge", clearBtn: "Clear Abacus",
+                colNames: ["Mil", "100K", "10K", "K", "H", "T", "U"], 
                 levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"],
-                historyTitle: "History", resetTitle: "Reset Options", cancel: "Cancel",
-                resetLevels: "Reset Levels", clearHistory: "Clear History", resetAll: "Reset All",
-                timeTaken: "Time:"
+                historyTitle: "Champion History", resetTitle: "Reset Options", cancel: "Cancel",
+                resetLevels: "Reset Levels", clearHistory: "Clear History", resetAll: "Factory Reset",
+                timeTaken: "Time:", challengeLabel: "Show Number: ",
+                manualCardLabel: "BASE", autoCardLabel: "LEVEL"
             }
         };
 
@@ -290,12 +287,6 @@
                 main.innerText = '⚙️';
             }
         }
-
-        document.addEventListener('click', (e) => {
-            if (isFabOpen && !document.getElementById('fabContainer').contains(e.target)) {
-                toggleFab();
-            }
-        });
 
         function playTone(f, t, d, v=0.1) {
             if (!soundEnabled) return;
@@ -318,6 +309,9 @@
             currentLang = currentLang === 'ar' ? 'en' : 'ar'; 
             localStorage.setItem('ab_lng', currentLang); 
             updateUI(); 
+            if(targetNum) { // Refresh challenge text if active
+                document.getElementById('challengeText').innerText = i18n[currentLang].challengeLabel + targetNum.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
+            }
         }
 
         function switchSystem(mode) {
@@ -334,15 +328,19 @@
             const isAr = currentLang === 'ar';
             const t = i18n[currentLang];
             
-            // تحديث اسم الموقع في الترويسة وفي المتصفح
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('appLogo').innerText = t.logo;
-            document.title = t.logo; // هذا يحدث اسم الموقع في شريط المتصفح
+            document.getElementById('pageTitle').innerText = t.logo;
+            document.title = t.logo;
             
             document.getElementById('btnManualMode').innerText = t.manualBtn;
             document.getElementById('btnAutoMode').innerText = t.autoBtn;
             document.getElementById('btnChallenge').innerText = t.startBtn;
+            document.getElementById('btnClear').innerText = t.clearBtn;
             
+            document.getElementById('manualLabel').innerText = t.manualCardLabel;
+            document.getElementById('autoLabel').innerText = t.autoCardLabel;
+
             document.getElementById('btnManualMode').className = `toggle-btn ${systemMode === 'manual' ? 'active' : ''}`;
             document.getElementById('btnAutoMode').className = `toggle-btn ${systemMode === 'auto' ? 'active' : ''}`;
             document.getElementById('manualCard').style.display = systemMode === 'manual' ? 'flex' : 'none';
@@ -350,7 +348,6 @@
             
             document.getElementById('autoLevelBadge').innerText = autoLevel;
             document.getElementById('progressFill').style.width = `${(autoLevel % 10 || 10) * 10}%`;
-            document.getElementById('soundToggleBtn').innerText = soundEnabled ? '🔊' : '🔇';
             document.getElementById('langBtn').innerText = isAr ? 'EN' : 'AR';
             
             const sel = document.getElementById('levelSelector');
@@ -418,17 +415,10 @@
             
             const min = 10n ** BigInt(digits - 1);
             const max = (10n ** BigInt(digits)) - 1n;
-            
-            let newNum;
-            let attempts = 0;
-            do {
-                newNum = min + BigInt(Math.floor(Math.random() * Number(max - min + 1n)));
-                attempts++;
-            } while (solvedHistory.some(h => h.n === newNum.toString()) && attempts < 50);
+            targetNum = min + BigInt(Math.floor(Math.random() * Number(max - min + 1n)));
 
-            targetNum = newNum;
             document.getElementById('challengeBox').classList.remove('hidden');
-            document.getElementById('challengeText').innerText = (currentLang === 'ar' ? "مثل الرقم: " : "Number: ") + targetNum.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
+            document.getElementById('challengeText').innerText = i18n[currentLang].challengeLabel + targetNum.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
             playTone(440, 'sine', 0.2);
         }
 
@@ -448,13 +438,11 @@
                 const now = new Date();
                 const dateStr = now.toLocaleDateString(currentLang === 'ar' ? 'ar-EG' : 'en-US', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
                 solvedHistory.unshift({ n: targetNum.toString(), t: sec, d: dateStr });
-                if(solvedHistory.length > 50) solvedHistory.pop();
                 localStorage.setItem('ab_hist', JSON.stringify(solvedHistory));
 
                 setTimeout(() => {
                     updateUI();
-                    if(milestone) showModal('milestone');
-                    else showModal('success');
+                    showModal(milestone ? 'milestone' : 'success');
                 }, 100);
             }
         }
@@ -511,11 +499,11 @@
             body.innerHTML = '';
             
             if(solvedHistory.length === 0) {
-                body.innerHTML = `<p class="text-center py-10 opacity-50">Empty</p>`;
+                body.innerHTML = `<p class="text-center py-10 opacity-50">No Data</p>`;
             } else {
                 solvedHistory.forEach(h => {
                     body.innerHTML += `
-                        <div class="bg-slate-900/50 p-3 rounded-xl mb-2 flex justify-between items-center text-right">
+                        <div class="bg-slate-900/50 p-3 rounded-xl mb-2 flex justify-between items-center">
                             <span class="text-amber-400 font-black">#${h.n}</span>
                             <span class="text-[10px] opacity-60">${h.t}s | ${h.d}</span>
                         </div>
