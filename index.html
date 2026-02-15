@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="pageTitle">مِعداد الذكاء - الواجهة المرنة</title>
+    <title id="pageTitle">مِعداد الذكاء</title>
     <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -89,14 +89,29 @@
         }
         .corner-btn:hover { background: var(--primary); transform: scale(1.05); }
 
+        /* اللوجو المتحرك المطور */
         .logo-animated {
-            font-size: clamp(1.8rem, 7vw, 3.5rem); 
+            font-size: clamp(2rem, 8vw, 4rem); 
             font-weight: 900; 
-            background: linear-gradient(135deg, #fde68a 0%, #fbbf24 50%, #d97706 100%);
+            background: linear-gradient(135deg, #fde68a 0%, #fbbf24 45%, #ffffff 50%, #fbbf24 55%, #d97706 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
             text-align: center;
             margin-top: 10px;
+            animation: shine 3s linear infinite, floatLogo 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.3));
+            cursor: default;
+            user-select: none;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
         }
 
         .system-toggle {
@@ -251,7 +266,7 @@
                 timeTaken: "الوقت:"
             },
             en: { 
-                logo: "MindAbacus", manualBtn: "Manual", autoBtn: "Levels", 
+                logo: "Mind Abacus", manualBtn: "Manual", autoBtn: "Levels", 
                 startBtn: "Challenge 🎯", success: "Well Done! 🏆", milestone: "Amazing! 💎", 
                 next: "Next", colNames: ["Mil", "100K", "10K", "K", "H", "T", "U"], 
                 levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"],
@@ -276,7 +291,6 @@
             }
         }
 
-        // Close FAB when clicking outside
         document.addEventListener('click', (e) => {
             if (isFabOpen && !document.getElementById('fabContainer').contains(e.target)) {
                 toggleFab();
@@ -319,8 +333,12 @@
         function updateUI() {
             const isAr = currentLang === 'ar';
             const t = i18n[currentLang];
+            
+            // تحديث اسم الموقع في الترويسة وفي المتصفح
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('appLogo').innerText = t.logo;
+            document.title = t.logo; // هذا يحدث اسم الموقع في شريط المتصفح
+            
             document.getElementById('btnManualMode').innerText = t.manualBtn;
             document.getElementById('btnAutoMode').innerText = t.autoBtn;
             document.getElementById('btnChallenge').innerText = t.startBtn;
