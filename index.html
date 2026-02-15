@@ -46,7 +46,6 @@
             text-align: center;
         }
 
-        /* جعل الإطار مرناً ليتناسب مع عرض الموبايل */
         .abacus-frame {
             background: var(--wood); 
             padding: clamp(40px, 10vw, 80px) clamp(5px, 2vw, 30px) 40px;
@@ -100,7 +99,6 @@
         .bead-5.active { transform: translateY(clamp(80px, 20vw, 115px)); background: var(--bead-active); box-shadow: 0 0 20px var(--bead-active); }
         
         .bead-1 { background: var(--bead-1); }
-        /* استخدام القيم النسبية للمسافات */
         .idx-1 { top: clamp(170px, 45vw, 220px); } 
         .idx-2 { top: calc(clamp(170px, 45vw, 220px) + clamp(35px, 8vw, 55px)); } 
         .idx-3 { top: calc(clamp(170px, 45vw, 220px) + clamp(35px, 8vw, 55px) * 2); } 
@@ -149,17 +147,28 @@
         }
 
         .column-label {
-            position: absolute; top: -55px; left: 50%; transform: translateX(-50%);
-            background: #1e293b; color: #94a3b8; padding: 4px 10px; border-radius: 10px;
-            font-size: clamp(0.6rem, 2vw, 0.85rem); white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
-            font-weight: bold; pointer-events: none;
+            position: absolute; 
+            top: -45px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background: #1e293b; 
+            color: #94a3b8; 
+            padding: 2px 4px; 
+            border-radius: 6px;
+            font-size: clamp(0.55rem, 1.6vw, 0.8rem);
+            white-space: nowrap; 
+            border: 1px solid rgba(255,255,255,0.1);
+            font-weight: bold; 
+            pointer-events: none;
+            width: 90%;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* تحسينات للشاشات الصغيرة جداً */
-        @media (max-width: 450px) {
-            .column-label { display: none; }
-            .abacus-frame { padding-top: 30px; }
-            .corner-btn, .reset-skill-btn { top: 10px; }
+        @media (max-width: 600px) {
+            .abacus-frame { padding-top: 60px; } 
+            .column-label { top: -35px; }
         }
     </style>
 </head>
@@ -185,7 +194,7 @@
         <div class="flex flex-wrap justify-center gap-4 mb-8">
             <div class="stat-card">
                 <span id="levelLabel" class="text-[10px] uppercase font-black text-indigo-400 mb-1"></span>
-                <select id="levelSelector" onchange="jumpToLevel(this.value)" class="bg-slate-900 border-none rounded-lg p-1 cursor-pointer text-white font-bold text-xs"></select>
+                <select id="levelSelector" onchange="manualLevelChanged(this.value)" class="bg-slate-900 border-none rounded-lg p-1 cursor-pointer text-white font-bold text-xs"></select>
             </div>
 
             <div class="stat-card border-amber-500">
@@ -218,7 +227,7 @@
 
     <script>
         let autoDifficulty = parseInt(localStorage.getItem('abacus_difficulty')) || 1;
-        let manualLevel = 1;
+        let selectedLevel = autoDifficulty; // المستوى المختار يدوياً عبر القائمة
         let currentLang = localStorage.getItem('abacus_lang') || 'ar';
         let targetNum = null;
         let sec = 0, timerInterval;
@@ -229,19 +238,19 @@
                 logo: "مِعداد الذكاء",
                 langBtn: "English",
                 levelLabel: "اختيار القاعدة",
-                progLabel: "الصعوبة الذكية",
+                progLabel: "الرتبة الكلية",
                 colNames: ["ملايين", "١٠٠ ألف", "١٠ آلاف", "ألف", "مئات", "عشرات", "آحاد"],
                 levels: ["١. الآحاد", "٢. العشرات", "٣. المئات", "٤. الألوف", "٥. عشرات الألوف", "٦. مئات الألوف", "٧. الملايين"],
                 startBtn: "تحدي جديد 🎯",
                 clearBtn: "تصفير المعداد",
                 challenge: "مثل الرقم: ",
                 successTitle: "رائع جداً! 🏆",
-                successDesc: "لقد نجحت في حل المسألة. هل أنت مستعد لتحدي أصعب قليلاً؟",
-                nextLevel: "التحدي التالي (أصعب) 🚀",
-                stay: "رقم آخر بنفس الصعوبة",
+                successDesc: "لقد نجحت في حل المسألة. تمت زيادة رتبتك الكلية!",
+                nextChallenge: "تحدي جديد بنفس القاعدة",
+                stay: "إغلاق",
                 maxLvl: "أنت الآن في قمة الذكاء! 👑",
                 confirmResetTitle: "إعادة تصفير المستوى؟",
-                confirmResetDesc: "سيتم حذف تقدمك الذكي والعودة إلى المستوى الأول. هل أنت متأكد؟",
+                confirmResetDesc: "سيتم حذف الرتبة الكلية والعودة إلى المستوى الأول. هل أنت متأكد؟",
                 resetBtn: "نعم، ابدأ من جديد",
                 cancelBtn: "إلغاء"
             },
@@ -249,19 +258,19 @@
                 logo: "MindAbacus",
                 langBtn: "العربية",
                 levelLabel: "Base Selection",
-                progLabel: "Smart Difficulty",
+                progLabel: "Total Rank",
                 colNames: ["Millions", "100K", "10K", "Thousands", "Hundreds", "Tens", "Units"],
                 levels: ["1. Units", "2. Tens", "3. Hundreds", "4. Thousands", "5. 10K", "6. 100K", "7. Millions"],
                 startBtn: "New Challenge 🎯",
                 clearBtn: "Clear Abacus",
                 challenge: "Show: ",
                 successTitle: "Amazing! 🏆",
-                successDesc: "You solved it! Ready for a harder challenge?",
-                nextLevel: "Next Challenge (Harder) 🚀",
-                stay: "Same difficulty",
+                successDesc: "You solved it! Your total rank has increased.",
+                nextChallenge: "New Challenge (Same Base)",
+                stay: "Close",
                 maxLvl: "You are an Abacus Master! 👑",
                 confirmResetTitle: "Reset Progress?",
-                confirmResetDesc: "Your smart progress will be cleared and you will return to level 1. Are you sure?",
+                confirmResetDesc: "Your total rank will be cleared and you will return to level 1. Are you sure?",
                 resetBtn: "Yes, Reset Now",
                 cancelBtn: "Cancel"
             }
@@ -293,12 +302,11 @@
             document.getElementById('timer').innerText = formatNum(sec);
             
             const selector = document.getElementById('levelSelector');
-            const currentVal = selector.value || manualLevel;
             selector.innerHTML = '';
             t.levels.forEach((l, i) => {
                 const opt = document.createElement('option');
                 opt.value = i + 1; opt.innerText = l;
-                opt.selected = (i + 1 == currentVal);
+                opt.selected = (i + 1 == selectedLevel);
                 selector.appendChild(opt);
             });
 
@@ -348,6 +356,12 @@
             const total = updateDisplayValue();
             if(targetNum !== null && total === targetNum) {
                 stopTimer();
+                // إذا كان المستوى الذي حله المستخدم أكبر أو يساوي رتبته الحالية، نزيده
+                if(selectedLevel >= autoDifficulty && autoDifficulty < 7) {
+                    autoDifficulty++;
+                    localStorage.setItem('abacus_difficulty', autoDifficulty);
+                    document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
+                }
                 setTimeout(() => openModal('success'), 400);
             }
         }
@@ -366,8 +380,9 @@
 
         function generateChallenge() {
             resetAbacus(); startTimer();
-            const min = 10n ** BigInt(autoDifficulty - 1);
-            const max = (10n ** BigInt(autoDifficulty)) - 1n;
+            // نستخدم selectedLevel المربوط بالقائمة المنسدلة حصراً
+            const min = 10n ** BigInt(selectedLevel - 1);
+            const max = (10n ** BigInt(selectedLevel)) - 1n;
             const range = max - min + 1n;
             const randomOffset = BigInt(Math.floor(Math.random() * Number(range < 1000000n ? range : 1000000n)));
             targetNum = min + randomOffset;
@@ -406,13 +421,10 @@
 
             if (type === 'success') {
                 icon.innerText = "🌟"; title.innerText = t.successTitle; desc.innerText = t.successDesc;
-                if (autoDifficulty < 7) {
-                    btns.innerHTML = `<button onclick="advanceDifficulty()" class="bg-emerald-600 px-6 py-3 rounded-xl font-black shadow-xl animate-pulse">${t.nextLevel}</button>
-                                      <button onclick="closeModal(); generateChallenge();" class="bg-slate-700 px-6 py-3 rounded-xl font-black">${t.stay}</button>`;
-                } else {
-                    title.innerText = t.maxLvl;
-                    btns.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="bg-emerald-600 px-6 py-3 rounded-xl font-black shadow-xl">${t.stay}</button>`;
-                }
+                btns.innerHTML = `
+                    <button onclick="closeModal(); generateChallenge();" class="bg-emerald-600 px-6 py-3 rounded-xl font-black shadow-xl animate-pulse">${t.nextChallenge}</button>
+                    <button onclick="closeModal()" class="bg-slate-700 px-6 py-3 rounded-xl font-black">${t.stay}</button>
+                `;
             } else if (type === 'confirmReset') {
                 icon.innerText = "⚠️"; title.innerText = t.confirmResetTitle; desc.innerText = t.confirmResetDesc;
                 btns.innerHTML = `<button onclick="executeResetSkill()" class="bg-rose-600 px-6 py-3 rounded-xl font-black shadow-xl">${t.resetBtn}</button>
@@ -421,24 +433,29 @@
             m.style.display = "flex"; setTimeout(() => m.classList.add('active'), 50);
         }
 
-        function advanceDifficulty() {
-            if (autoDifficulty < 7) { autoDifficulty++; localStorage.setItem('abacus_difficulty', autoDifficulty); applyUI(); }
-            closeModal(); setTimeout(generateChallenge, 400);
-        }
-
         function closeModal() {
             const m = document.getElementById('universalModal');
             m.classList.remove('active'); setTimeout(() => m.style.display = "none", 400);
         }
 
         function executeResetSkill() {
-            autoDifficulty = 1; localStorage.setItem('abacus_difficulty', autoDifficulty);
+            autoDifficulty = 1; selectedLevel = 1;
+            localStorage.setItem('abacus_difficulty', autoDifficulty);
             applyUI(); closeModal(); targetNum = null;
             document.getElementById('challengeBox').classList.add('hidden');
             stopTimer(); resetAbacus();
         }
 
-        function jumpToLevel(val) { manualLevel = parseInt(val); resetAbacus(); document.getElementById('challengeBox').classList.add('hidden'); targetNum = null; stopTimer(); }
+        function manualLevelChanged(val) { 
+            // تحديث المستوى المختار فقط دون التأثير على أي شيء آخر
+            selectedLevel = parseInt(val); 
+            // التصفير فقط للاستعداد للتحدي القادم بهذا المستوى
+            resetAbacus(); 
+            document.getElementById('challengeBox').classList.add('hidden'); 
+            targetNum = null; 
+            stopTimer(); 
+        }
+        
         function confirmResetSkill() { openModal('confirmReset'); }
 
         window.onload = applyUI;
