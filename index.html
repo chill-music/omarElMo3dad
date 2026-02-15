@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معداد عمر - النسخة الاحترافية</title>
+    <title>معداد الذكاء - MindAbacus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=Poppins:wght@700;900&display=swap');
@@ -18,10 +18,9 @@
         }
 
         body {
-            /* تفعيل أنيميشن الخلفية بشكل أقوى */
             background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #1e293b);
             background-size: 400% 400% !important;
-            animation: gradientBG 10s ease infinite !important;
+            animation: gradientBG 15s ease infinite !important;
             min-height: 100vh;
             margin: 0;
             padding: 20px 10px;
@@ -38,6 +37,51 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* تصميم الشعار الاحترافي */
+        .logo-container {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+            perspective: 1000px;
+        }
+
+        .main-logo {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #fbbf24, #f59e0b, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.3));
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        /* تأثير اللمعان الذي يمر على النص */
+        .main-logo::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, transparent, rgba(255,255,255,0.6), transparent, transparent);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.2); }
+        }
+
+        @keyframes shine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .lang-switcher { position: absolute; top: 15px; left: 20px; z-index: 100; }
@@ -157,6 +201,11 @@
             text-align: center; max-width: 500px; animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .bead-particle { position: absolute; pointer-events: none; width: 10px; height: 10px; background: gold; border-radius: 50%; z-index: 100; }
+
+        /* Responsive Logo */
+        @media (max-width: 640px) {
+            .main-logo { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -179,8 +228,14 @@
     </div>
 
     <div class="content-wrapper flex flex-col items-center w-full">
+        
+        <!-- الشعار الاحترافي -->
+        <div class="logo-container">
+            <h1 id="appLogo" class="main-logo" data-text="مِعداد الذكاء">مِعداد الذكاء</h1>
+        </div>
+
         <!-- قسم التحكم العلوي المنظم -->
-        <div class="flex flex-col items-center gap-6 mb-8 mt-12">
+        <div class="flex flex-col items-center gap-6 mb-8 mt-4">
             <div class="status-card">
                 <div class="flex items-center gap-3">
                     <span class="text-indigo-400 font-bold" id="levelLabel">المستوى:</span>
@@ -227,6 +282,7 @@
 
         const i18n = {
             ar: {
+                appName: "مِعداد الذكاء",
                 columns: ["ملايين", "١٠٠ ألف", "١٠ آلاف", "ألف", "مئات", "عشرات", "آحاد"],
                 levels: ["آحاد", "عشرات", "مئات", "ألوف", "عشرات الألوف", "مئات الألوف", "ملايين"],
                 btnChallenge: "ابدأ التحدي 🎯",
@@ -242,6 +298,7 @@
                 resetConfirm: "هل تريد حقاً العودة للمستوى الأول ومسح تقدمك؟"
             },
             en: {
+                appName: "MindAbacus",
                 columns: ["Millions", "100K", "10K", "Thousands", "Hundreds", "Tens", "Units"],
                 levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"],
                 btnChallenge: "Start Challenge 🎯",
@@ -295,6 +352,13 @@
 
         function applyLanguageUI() {
             document.getElementById('mainHtml').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // تحديث الشعار
+            const logo = document.getElementById('appLogo');
+            logo.innerText = i18n[currentLang].appName;
+            logo.setAttribute('data-text', i18n[currentLang].appName);
+            logo.style.fontFamily = currentLang === 'ar' ? 'Cairo' : 'Poppins';
+
             document.getElementById('langToggle').innerText = i18n[currentLang].langBtn;
             document.getElementById('btnChallenge').innerText = i18n[currentLang].btnChallenge;
             document.getElementById('resetBtn').innerText = i18n[currentLang].resetBtn;
