@@ -2,10 +2,8 @@
 <html lang="ar" dir="rtl" id="mainHtml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- سيتم تحديث العنوان والأيقونة عبر الجافاسكريبت بناءً على اللغة -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title id="pageTitle">مِعداد الذكاء</title>
-    <!-- Favicon (أيقونة المعداد) -->
     <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,9 +26,9 @@
             margin: 0;
             display: flex; flex-direction: column; align-items: center;
             overflow-x: hidden;
+            touch-action: manipulation;
         }
 
-        /* Animated Site Logo */
         @keyframes float {
             0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(251, 191, 36, 0.4)); }
             50% { transform: translateY(-10px) scale(1.02); filter: drop-shadow(0 20px 30px rgba(251, 191, 36, 0.6)); }
@@ -38,168 +36,190 @@
         }
 
         .logo-animated {
-            font-size: 4rem; font-weight: 900; display: inline-block;
+            font-size: clamp(2rem, 8vw, 4rem); 
+            font-weight: 900; 
+            display: inline-block;
             animation: float 4s ease-in-out infinite;
             background: linear-gradient(to bottom, #fde68a, #fbbf24, #d97706);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             cursor: default;
+            text-align: center;
         }
 
-        /* Abacus Frame */
+        /* جعل الإطار مرناً ليتناسب مع عرض الموبايل */
         .abacus-frame {
-            background: var(--wood); padding: 80px 30px 40px;
-            border: 15px solid #1a130e; border-radius: 50px;
-            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
-            display: flex; gap: 15px; max-width: 98vw; margin-top: 40px;
+            background: var(--wood); 
+            padding: clamp(40px, 10vw, 80px) clamp(5px, 2vw, 30px) 40px;
+            border: clamp(8px, 2vw, 15px) solid #1a130e; 
+            border-radius: clamp(20px, 5vw, 50px);
+            position: relative; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5);
+            display: flex; 
+            gap: clamp(2px, 1vw, 15px); 
+            max-width: 98vw; 
+            margin-top: 20px;
+            justify-content: center;
         }
 
-        .middle-beam { position: absolute; left: 0; right: 0; top: 185px; height: 22px; background: #2a1d15; z-index: 50; box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); }
-        .column { width: 85px; height: 520px; position: relative; display: flex; flex-direction: column; align-items: center; }
-        .rod { position: absolute; left: 50%; transform: translateX(-50%); width: 12px; height: 100%; background: linear-gradient(to right, #334155, #94a3b8, #334155); z-index: 1; border-radius: 6px; }
+        .middle-beam { 
+            position: absolute; left: 0; right: 0; 
+            top: clamp(140px, 35vw, 185px); 
+            height: clamp(12px, 3vw, 22px); 
+            background: #2a1d15; z-index: 50; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); 
+        }
+
+        .column { 
+            width: clamp(38px, 11vw, 85px); 
+            height: clamp(380px, 95vw, 520px); 
+            position: relative; 
+            display: flex; flex-direction: column; align-items: center; 
+        }
+
+        .rod { 
+            position: absolute; left: 50%; transform: translateX(-50%); 
+            width: clamp(4px, 1vw, 12px); 
+            height: 100%; 
+            background: linear-gradient(to right, #334155, #94a3b8, #334155); 
+            z-index: 1; border-radius: 6px; 
+        }
 
         .bead { 
-            width: 80px; height: 50px; 
+            width: 95%; 
+            height: clamp(30px, 7vw, 50px); 
             clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); 
-            position: absolute; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            z-index: 60; display: flex; align-items: center; justify-content: center; font-weight: 900;
-            color: white; font-size: 1.2rem;
+            position: absolute; cursor: pointer; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            z-index: 60; display: flex; align-items: center; justify-content: center; 
+            font-weight: 900; color: white; 
+            font-size: clamp(0.8rem, 2.5vw, 1.2rem); 
+            user-select: none;
         }
         
         .bead-5 { background: var(--bead-5); top: 20px; }
-        .bead-5.active { transform: translateY(115px); background: var(--bead-active); box-shadow: 0 0 20px var(--bead-active); }
+        .bead-5.active { transform: translateY(clamp(80px, 20vw, 115px)); background: var(--bead-active); box-shadow: 0 0 20px var(--bead-active); }
         
         .bead-1 { background: var(--bead-1); }
-        .idx-1 { top: 220px; } .idx-2 { top: 275px; } .idx-3 { top: 330px; } .idx-4 { top: 385px; }
-        .bead-1.active { transform: translateY(-35px); background: var(--bead-active); box-shadow: 0 0 20px var(--bead-active); }
+        /* استخدام القيم النسبية للمسافات */
+        .idx-1 { top: clamp(170px, 45vw, 220px); } 
+        .idx-2 { top: calc(clamp(170px, 45vw, 220px) + clamp(35px, 8vw, 55px)); } 
+        .idx-3 { top: calc(clamp(170px, 45vw, 220px) + clamp(35px, 8vw, 55px) * 2); } 
+        .idx-4 { top: calc(clamp(170px, 45vw, 220px) + clamp(35px, 8vw, 55px) * 3); }
+        
+        .bead-1.active { transform: translateY(clamp(-25px, -6vw, -35px)); background: var(--bead-active); box-shadow: 0 0 20px var(--bead-active); }
 
-        /* Modal Styles */
         .modal-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             backdrop-filter: blur(15px); z-index: 2000; align-items: center; justify-content: center;
         }
         .modal-content {
             background: #1e293b; border: 4px solid var(--primary); border-radius: 40px;
-            padding: 50px; max-width: 550px; width: 90%; text-align: center;
+            padding: clamp(20px, 5vw, 50px); max-width: 550px; width: 90%; text-align: center;
             transform: scale(0.8); opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         .stat-card {
-            background: rgba(30, 41, 59, 0.8); padding: 10px 20px; border-radius: 20px;
+            background: rgba(30, 41, 59, 0.8); padding: 10px 15px; border-radius: 20px;
             border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3); min-width: 120px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); min-width: clamp(80px, 20vw, 120px);
         }
 
         .btn-fancy {
             background: linear-gradient(135deg, #8b5cf6, #6366f1);
-            padding: 12px 35px; border-radius: 20px; font-weight: 900;
+            padding: 12px clamp(20px, 5vw, 35px); border-radius: 20px; font-weight: 900;
             transition: 0.3s; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            font-size: clamp(1rem, 4vw, 1.5rem);
         }
-        .btn-fancy:hover { transform: translateY(-3px) scale(1.05); filter: brightness(1.1); }
+        .btn-fancy:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
         .corner-btn {
             position: fixed; top: 20px; z-index: 1000;
-            padding: 10px 20px; border-radius: 15px; font-weight: bold;
+            padding: 8px 15px; border-radius: 12px; font-weight: bold;
             background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+            font-size: 0.8rem;
         }
-        .corner-btn:hover { background: white; color: black; }
 
         .reset-skill-btn {
             position: fixed; top: 20px; z-index: 1000;
-            padding: 10px; border-radius: 15px; font-weight: bold;
+            padding: 8px; border-radius: 12px;
             background: rgba(239, 68, 68, 0.1); backdrop-filter: blur(10px);
-            border: 1px solid rgba(239, 68, 68, 0.3); transition: 0.3s;
-            color: #ef4444; cursor: pointer;
-        }
-        .reset-skill-btn:hover { background: #ef4444; color: white; }
-
-        @keyframes timerPulse {
-            0% { transform: scale(1); text-shadow: 0 0 0px var(--primary); }
-            50% { transform: scale(1.15); text-shadow: 0 0 20px var(--primary); }
-            100% { transform: scale(1); text-shadow: 0 0 0px var(--primary); }
-        }
-        .timer-active {
-            animation: timerPulse 1s infinite ease-in-out;
-            color: #a78bfa;
-        }
-
-        .badge-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+            border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;
         }
 
         .column-label {
             position: absolute; top: -55px; left: 50%; transform: translateX(-50%);
-            background: #1e293b; color: #94a3b8; padding: 4px 12px; border-radius: 10px;
-            font-size: 0.85rem; white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
+            background: #1e293b; color: #94a3b8; padding: 4px 10px; border-radius: 10px;
+            font-size: clamp(0.6rem, 2vw, 0.85rem); white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
             font-weight: bold; pointer-events: none;
+        }
+
+        /* تحسينات للشاشات الصغيرة جداً */
+        @media (max-width: 450px) {
+            .column-label { display: none; }
+            .abacus-frame { padding-top: 30px; }
+            .corner-btn, .reset-skill-btn { top: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- UI Buttons -->
     <button id="langBtn" onclick="toggleLanguage()" class="corner-btn"></button>
-    <button id="resetSkillBtn" onclick="confirmResetSkill()" class="reset-skill-btn" title="إعادة تصفير المستوى">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+    <button id="resetSkillBtn" onclick="confirmResetSkill()" class="reset-skill-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
     </button>
 
-    <!-- Modal System -->
     <div id="universalModal" class="modal-overlay">
         <div class="modal-content">
-            <div id="modalIcon" class="text-8xl mb-8"></div>
-            <h2 id="modalTitle" class="text-4xl font-black mb-4"></h2>
-            <p id="modalDesc" class="text-xl text-slate-300 mb-10 leading-relaxed"></p>
-            <div class="flex gap-4 justify-center" id="modalButtons"></div>
+            <div id="modalIcon" class="text-6xl mb-6"></div>
+            <h2 id="modalTitle" class="text-3xl font-black mb-4"></h2>
+            <p id="modalDesc" class="text-lg text-slate-300 mb-8 leading-relaxed"></p>
+            <div class="flex flex-wrap gap-4 justify-center" id="modalButtons"></div>
         </div>
     </div>
 
-    <div class="flex flex-col items-center w-full py-12 px-4">
-        <h1 id="appLogo" class="logo-animated mb-8"></h1>
+    <div class="flex flex-col items-center w-full py-8 px-2 mt-10">
+        <h1 id="appLogo" class="logo-animated mb-6"></h1>
 
-        <div class="flex flex-wrap justify-center gap-6 mb-12">
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
             <div class="stat-card">
-                <span id="levelLabel" class="text-xs uppercase font-black text-indigo-400 mb-1"></span>
-                <select id="levelSelector" onchange="jumpToLevel(this.value)" class="bg-slate-900 border-none rounded-lg p-2 cursor-pointer text-white font-bold"></select>
+                <span id="levelLabel" class="text-[10px] uppercase font-black text-indigo-400 mb-1"></span>
+                <select id="levelSelector" onchange="jumpToLevel(this.value)" class="bg-slate-900 border-none rounded-lg p-1 cursor-pointer text-white font-bold text-xs"></select>
             </div>
 
-            <div class="stat-card border-amber-500 badge-pulse">
-                <span id="progLabel" class="text-xs uppercase font-black text-amber-400 mb-1"></span>
-                <span id="autoLevelBadge" class="text-xl font-black text-amber-200"></span>
+            <div class="stat-card border-amber-500">
+                <span id="progLabel" class="text-[10px] uppercase font-black text-amber-400 mb-1"></span>
+                <span id="autoLevelBadge" class="text-lg font-black text-amber-200"></span>
             </div>
 
-            <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy text-2xl"></button>
+            <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy"></button>
         </div>
 
-        <div id="challengeBox" class="hidden bg-slate-900/90 border-4 border-amber-500 p-8 rounded-[40px] mb-8 shadow-2xl transition-all">
-            <p id="challengeText" class="text-4xl font-black text-amber-400 text-center"></p>
+        <div id="challengeBox" class="hidden bg-slate-900/90 border-4 border-amber-500 p-6 rounded-[30px] mb-6 shadow-2xl transition-all">
+            <p id="challengeText" class="text-2xl md:text-3xl font-black text-amber-400 text-center"></p>
         </div>
 
-        <div class="flex gap-10 mb-8">
-            <div class="bg-slate-800/60 px-8 py-4 rounded-3xl border-2 border-rose-500 flex items-center gap-4">
-                <span class="text-2xl">🕒</span>
-                <span id="timer" class="text-3xl font-black"></span>
+        <div class="flex gap-4 mb-6">
+            <div class="bg-slate-800/60 px-4 py-2 rounded-2xl border-2 border-rose-500 flex items-center gap-2">
+                <span class="text-xl">🕒</span>
+                <span id="timer" class="text-xl font-black"></span>
             </div>
-            <div class="bg-slate-800/60 px-8 py-4 rounded-3xl border-2 border-indigo-500 flex items-center gap-4">
-                <span id="eyeIcon" onclick="toggleEye()" class="cursor-pointer text-2xl hover:rotate-12 transition-transform">👁️</span>
-                <span id="total" class="text-3xl font-black text-amber-500 opacity-5 blur-2xl transition-all duration-700"></span>
+            <div class="bg-slate-800/60 px-4 py-2 rounded-2xl border-2 border-indigo-500 flex items-center gap-2">
+                <span id="eyeIcon" onclick="toggleEye()" class="cursor-pointer text-xl">👁️</span>
+                <span id="total" class="text-xl font-black text-amber-500 opacity-5 blur-xl transition-all"></span>
             </div>
         </div>
 
         <div class="abacus-frame" id="rodsGrid"></div>
         
-        <button onclick="resetAbacus()" id="btnClear" class="mt-12 text-slate-400 hover:text-white transition-colors underline decoration-dotted"></button>
+        <button onclick="resetAbacus()" id="btnClear" class="mt-8 text-slate-400 hover:text-white transition-colors underline decoration-dotted text-sm"></button>
     </div>
 
     <script>
-        // State Management
         let autoDifficulty = parseInt(localStorage.getItem('abacus_difficulty')) || 1;
         let manualLevel = 1;
         let currentLang = localStorage.getItem('abacus_lang') || 'ar';
-        
         let targetNum = null;
         let sec = 0, timerInterval;
         let eyeVisible = false;
@@ -223,8 +243,7 @@
                 confirmResetTitle: "إعادة تصفير المستوى؟",
                 confirmResetDesc: "سيتم حذف تقدمك الذكي والعودة إلى المستوى الأول. هل أنت متأكد؟",
                 resetBtn: "نعم، ابدأ من جديد",
-                cancelBtn: "إلغاء",
-                zero: "٠"
+                cancelBtn: "إلغاء"
             },
             en: {
                 logo: "MindAbacus",
@@ -244,8 +263,7 @@
                 confirmResetTitle: "Reset Progress?",
                 confirmResetDesc: "Your smart progress will be cleared and you will return to level 1. Are you sure?",
                 resetBtn: "Yes, Reset Now",
-                cancelBtn: "Cancel",
-                zero: "0"
+                cancelBtn: "Cancel"
             }
         };
 
@@ -263,20 +281,14 @@
         function applyUI() {
             const t = i18n[currentLang];
             const isAr = currentLang === 'ar';
-            
-            // تحديث عنوان الصفحة في المتصفح
             document.title = t.logo;
-            
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
-            document.body.style.fontFamily = isAr ? "'Cairo', sans-serif" : "'Poppins', sans-serif";
-            
             document.getElementById('appLogo').innerText = t.logo;
             document.getElementById('langBtn').innerText = t.langBtn;
             document.getElementById('levelLabel').innerText = t.levelLabel;
             document.getElementById('progLabel').innerText = t.progLabel;
             document.getElementById('btnChallenge').innerText = t.startBtn;
             document.getElementById('btnClear').innerText = t.clearBtn;
-            
             document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
             document.getElementById('timer').innerText = formatNum(sec);
             
@@ -285,21 +297,15 @@
             selector.innerHTML = '';
             t.levels.forEach((l, i) => {
                 const opt = document.createElement('option');
-                opt.value = i + 1;
-                opt.innerText = l;
+                opt.value = i + 1; opt.innerText = l;
                 opt.selected = (i + 1 == currentVal);
                 selector.appendChild(opt);
             });
 
             const langBtn = document.getElementById('langBtn');
-            const resetBtn = document.getElementById('resetSkillBtn');
-            if(isAr) { 
-                langBtn.style.left = "20px"; langBtn.style.right = "auto"; 
-                resetBtn.style.right = "20px"; resetBtn.style.left = "auto";
-            } else { 
-                langBtn.style.right = "20px"; langBtn.style.left = "auto"; 
-                resetBtn.style.left = "20px"; resetBtn.style.right = "auto";
-            }
+            const resBtn = document.getElementById('resetSkillBtn');
+            if(isAr) { langBtn.style.left="20px"; langBtn.style.right="auto"; resBtn.style.right="20px"; resBtn.style.left="auto"; }
+            else { langBtn.style.right="20px"; langBtn.style.left="auto"; resBtn.style.left="20px"; resBtn.style.right="auto"; }
             
             initAbacus();
             updateDisplayValue();
@@ -309,7 +315,6 @@
             const grid = document.getElementById('rodsGrid');
             const t = i18n[currentLang];
             grid.innerHTML = '<div class="middle-beam"></div>';
-            
             for(let i=0; i<7; i++) {
                 const col = document.createElement('div');
                 col.className = 'column';
@@ -343,14 +348,11 @@
             const total = updateDisplayValue();
             if(targetNum !== null && total === targetNum) {
                 stopTimer();
-                setTimeout(() => openModal('success'), 500);
+                setTimeout(() => openModal('success'), 400);
             }
         }
 
-        function toggleBead(el) { 
-            el.classList.toggle('active'); 
-            checkResult(); 
-        }
+        function toggleBead(el) { el.classList.toggle('active'); checkResult(); }
 
         function handleLower(el, idx) {
             const beads = el.parentElement.querySelectorAll('.bead-1');
@@ -363,8 +365,7 @@
         }
 
         function generateChallenge() {
-            resetAbacus();
-            startTimer();
+            resetAbacus(); startTimer();
             const min = 10n ** BigInt(autoDifficulty - 1);
             const max = (10n ** BigInt(autoDifficulty)) - 1n;
             const range = max - min + 1n;
@@ -374,31 +375,17 @@
             updateChallengeText();
         }
 
-        function updateChallengeText() {
-            document.getElementById('challengeText').innerText = i18n[currentLang].challenge + formatNum(targetNum);
-        }
+        function updateChallengeText() { document.getElementById('challengeText').innerText = i18n[currentLang].challenge + formatNum(targetNum); }
 
         function startTimer() {
-            clearInterval(timerInterval);
-            sec = 0;
-            const timerEl = document.getElementById('timer');
-            timerEl.classList.add('timer-active');
-            timerEl.innerText = formatNum(sec);
-            timerInterval = setInterval(() => {
-                sec++;
-                timerEl.innerText = formatNum(sec);
-            }, 1000);
+            clearInterval(timerInterval); sec = 0;
+            document.getElementById('timer').innerText = formatNum(sec);
+            timerInterval = setInterval(() => { sec++; document.getElementById('timer').innerText = formatNum(sec); }, 1000);
         }
 
-        function stopTimer() { 
-            clearInterval(timerInterval); 
-            document.getElementById('timer').classList.remove('timer-active');
-        }
+        function stopTimer() { clearInterval(timerInterval); }
 
-        function resetAbacus() {
-            document.querySelectorAll('.bead').forEach(b => b.classList.remove('active'));
-            updateDisplayValue();
-        }
+        function resetAbacus() { document.querySelectorAll('.bead').forEach(b => b.classList.remove('active')); updateDisplayValue(); }
 
         function toggleEye() {
             eyeVisible = !eyeVisible;
@@ -406,19 +393,6 @@
             const e = document.getElementById('eyeIcon');
             if(eyeVisible) { t.style.opacity = "1"; t.style.filter = "blur(0)"; e.innerText = "👁️‍🗨️"; } 
             else { t.style.opacity = "0.05"; t.style.filter = "blur(20px)"; e.innerText = "👁️"; }
-        }
-
-        function confirmResetSkill() { openModal('confirmReset'); }
-
-        function executeResetSkill() {
-            autoDifficulty = 1;
-            localStorage.setItem('abacus_difficulty', autoDifficulty);
-            document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
-            closeModal();
-            targetNum = null;
-            document.getElementById('challengeBox').classList.add('hidden');
-            stopTimer();
-            resetAbacus();
         }
 
         function openModal(type) {
@@ -431,55 +405,41 @@
             btns.innerHTML = '';
 
             if (type === 'success') {
-                icon.innerText = "🌟";
-                title.innerText = t.successTitle;
-                desc.innerText = t.successDesc;
+                icon.innerText = "🌟"; title.innerText = t.successTitle; desc.innerText = t.successDesc;
                 if (autoDifficulty < 7) {
-                    btns.innerHTML = `
-                        <button onclick="advanceDifficulty()" class="bg-emerald-600 px-10 py-4 rounded-2xl font-black shadow-xl animate-bounce">${t.nextLevel}</button>
-                        <button onclick="closeModal(); generateChallenge();" class="bg-slate-700 px-10 py-4 rounded-2xl font-black">${t.stay}</button>
-                    `;
+                    btns.innerHTML = `<button onclick="advanceDifficulty()" class="bg-emerald-600 px-6 py-3 rounded-xl font-black shadow-xl animate-pulse">${t.nextLevel}</button>
+                                      <button onclick="closeModal(); generateChallenge();" class="bg-slate-700 px-6 py-3 rounded-xl font-black">${t.stay}</button>`;
                 } else {
                     title.innerText = t.maxLvl;
-                    btns.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="bg-emerald-600 px-10 py-4 rounded-2xl font-black shadow-xl">${t.stay}</button>`;
+                    btns.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="bg-emerald-600 px-6 py-3 rounded-xl font-black shadow-xl">${t.stay}</button>`;
                 }
             } else if (type === 'confirmReset') {
-                icon.innerText = "⚠️";
-                title.innerText = t.confirmResetTitle;
-                desc.innerText = t.confirmResetDesc;
-                btns.innerHTML = `
-                    <button onclick="executeResetSkill()" class="bg-rose-600 px-8 py-4 rounded-2xl font-black shadow-xl">${t.resetBtn}</button>
-                    <button onclick="closeModal()" class="bg-slate-700 px-8 py-4 rounded-2xl font-black">${t.cancelBtn}</button>
-                `;
+                icon.innerText = "⚠️"; title.innerText = t.confirmResetTitle; desc.innerText = t.confirmResetDesc;
+                btns.innerHTML = `<button onclick="executeResetSkill()" class="bg-rose-600 px-6 py-3 rounded-xl font-black shadow-xl">${t.resetBtn}</button>
+                                  <button onclick="closeModal()" class="bg-slate-700 px-6 py-3 rounded-xl font-black">${t.cancelBtn}</button>`;
             }
-
-            m.style.display = "flex";
-            setTimeout(() => m.classList.add('active'), 50);
+            m.style.display = "flex"; setTimeout(() => m.classList.add('active'), 50);
         }
 
         function advanceDifficulty() {
-            if (autoDifficulty < 7) {
-                autoDifficulty++;
-                localStorage.setItem('abacus_difficulty', autoDifficulty);
-                document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
-            }
-            closeModal();
-            setTimeout(generateChallenge, 500);
+            if (autoDifficulty < 7) { autoDifficulty++; localStorage.setItem('abacus_difficulty', autoDifficulty); applyUI(); }
+            closeModal(); setTimeout(generateChallenge, 400);
         }
 
         function closeModal() {
             const m = document.getElementById('universalModal');
-            m.classList.remove('active');
-            setTimeout(() => m.style.display = "none", 400);
+            m.classList.remove('active'); setTimeout(() => m.style.display = "none", 400);
         }
 
-        function jumpToLevel(val) {
-            manualLevel = parseInt(val);
-            resetAbacus();
+        function executeResetSkill() {
+            autoDifficulty = 1; localStorage.setItem('abacus_difficulty', autoDifficulty);
+            applyUI(); closeModal(); targetNum = null;
             document.getElementById('challengeBox').classList.add('hidden');
-            targetNum = null;
-            stopTimer();
+            stopTimer(); resetAbacus();
         }
+
+        function jumpToLevel(val) { manualLevel = parseInt(val); resetAbacus(); document.getElementById('challengeBox').classList.add('hidden'); targetNum = null; stopTimer(); }
+        function confirmResetSkill() { openModal('confirmReset'); }
 
         window.onload = applyUI;
     </script>
