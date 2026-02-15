@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مِعداد الذكاء - تحدي تصاعدي</title>
+    <!-- سيتم تحديث العنوان والأيقونة عبر الجافاسكريبت بناءً على اللغة -->
+    <title id="pageTitle">مِعداد الذكاء</title>
+    <!-- Favicon (أيقونة المعداد) -->
+    <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&family=Poppins:wght@600;900&display=swap');
@@ -110,7 +114,6 @@
         }
         .reset-skill-btn:hover { background: #ef4444; color: white; }
 
-        /* Timer Animation */
         @keyframes timerPulse {
             0% { transform: scale(1); text-shadow: 0 0 0px var(--primary); }
             50% { transform: scale(1.15); text-shadow: 0 0 20px var(--primary); }
@@ -246,11 +249,8 @@
             }
         };
 
-        // Utility to format numbers based on language
         function formatNum(n) {
-            if (currentLang === 'ar') {
-                return n.toLocaleString('ar-EG');
-            }
+            if (currentLang === 'ar') return n.toLocaleString('ar-EG');
             return n.toLocaleString('en-US');
         }
 
@@ -263,6 +263,10 @@
         function applyUI() {
             const t = i18n[currentLang];
             const isAr = currentLang === 'ar';
+            
+            // تحديث عنوان الصفحة في المتصفح
+            document.title = t.logo;
+            
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.body.style.fontFamily = isAr ? "'Cairo', sans-serif" : "'Poppins', sans-serif";
             
@@ -273,11 +277,9 @@
             document.getElementById('btnChallenge').innerText = t.startBtn;
             document.getElementById('btnClear').innerText = t.clearBtn;
             
-            // Dynamic number updates
             document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
             document.getElementById('timer').innerText = formatNum(sec);
             
-            // Re-render level selector
             const selector = document.getElementById('levelSelector');
             const currentVal = selector.value || manualLevel;
             selector.innerHTML = '';
@@ -289,7 +291,6 @@
                 selector.appendChild(opt);
             });
 
-            // Adjust buttons positions
             const langBtn = document.getElementById('langBtn');
             const resetBtn = document.getElementById('resetSkillBtn');
             if(isAr) { 
