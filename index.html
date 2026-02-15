@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="pageTitle">مِعداد الذكاء</title>
+    <title id="pageTitle">مِعداد الذكاء - سجل الإنجازات</title>
     <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,112 +29,87 @@
             touch-action: manipulation;
         }
 
+        .logo-container { margin-top: 25px; perspective: 1000px; }
         .logo-animated {
-            font-size: clamp(2rem, 8vw, 3.5rem); 
+            font-size: clamp(2.5rem, 10vw, 4rem); 
             font-weight: 900; 
-            background: linear-gradient(to bottom, #fde68a, #fbbf24, #d97706);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background: linear-gradient(135deg, #fde68a 0%, #fbbf24 50%, #d97706 100%);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
             text-align: center;
-            margin-top: 20px;
+            animation: logoFloat 3s ease-in-out infinite, logoGlow 5s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.3));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(10deg); }
         }
 
         .system-toggle {
-            display: flex;
-            background: rgba(30, 41, 59, 0.6);
-            padding: 5px;
-            border-radius: 15px;
-            border: 2px solid var(--primary);
-            margin-bottom: 20px;
-            z-index: 100;
+            display: flex; background: rgba(30, 41, 59, 0.6); padding: 5px;
+            border-radius: 15px; border: 2px solid var(--primary); margin-bottom: 20px; z-index: 100;
         }
 
         .toggle-btn {
-            padding: 8px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-            font-size: 0.85rem;
+            padding: 8px 15px; border-radius: 10px; cursor: pointer;
+            transition: 0.3s; font-weight: bold; font-size: 0.85rem;
         }
-
-        .toggle-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
-        }
+        .toggle-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4); }
 
         .abacus-frame {
-            background: var(--wood); 
-            padding: 60px 15px 40px;
-            border: 12px solid #1a130e; 
-            border-radius: 40px;
-            position: relative; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            display: flex; 
-            gap: clamp(2px, 1.5vw, 12px); 
-            max-width: 98vw; 
-            margin-top: 10px;
-            justify-content: center;
+            background: var(--wood); padding: 60px 15px 40px; border: 12px solid #1a130e; 
+            border-radius: 40px; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            display: flex; gap: clamp(2px, 1.5vw, 12px); max-width: 98vw; margin-top: 10px; justify-content: center;
         }
 
         .middle-beam { 
-            position: absolute; left: 0; right: 0; 
-            top: 165px; 
-            height: 18px; 
-            background: #2a1d15; z-index: 50; 
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); 
+            position: absolute; left: 0; right: 0; top: 165px; height: 18px; 
+            background: #2a1d15; z-index: 50; box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); 
         }
 
-        .column { 
-            width: clamp(35px, 10vw, 80px); 
-            height: 480px; 
-            position: relative; 
-            display: flex; flex-direction: column; align-items: center; 
-        }
-
-        .rod { 
-            position: absolute; left: 50%; transform: translateX(-50%); 
-            width: 8px; 
-            height: 100%; 
-            background: linear-gradient(to right, #334155, #94a3b8, #334155); 
-            z-index: 1; border-radius: 4px; 
-        }
-
+        .column { width: clamp(35px, 10vw, 80px); height: 480px; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .rod { position: absolute; left: 50%; transform: translateX(-50%); width: 8px; height: 100%; background: linear-gradient(to right, #334155, #94a3b8, #334155); z-index: 1; border-radius: 4px; }
         .bead { 
-            width: 95%; 
-            height: 40px; 
-            clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); 
-            position: absolute; cursor: pointer; 
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            z-index: 60; display: flex; align-items: center; justify-content: center; 
-            font-weight: 900; color: white; 
-            font-size: 0.9rem; 
-            user-select: none;
+            width: 95%; height: 40px; clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); 
+            position: absolute; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            z-index: 60; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 0.9rem; user-select: none;
         }
         
         .bead-5 { background: var(--bead-5); top: 15px; }
         .bead-5.active { transform: translateY(95px); background: var(--bead-active); }
-        
         .bead-1 { background: var(--bead-1); }
-        .idx-1 { top: 195px; } 
-        .idx-2 { top: 240px; } 
-        .idx-3 { top: 285px; } 
-        .idx-4 { top: 330px; }
+        .idx-1 { top: 195px; } .idx-2 { top: 240px; } .idx-3 { top: 285px; } .idx-4 { top: 330px; }
         .bead-1.active { transform: translateY(-30px); background: var(--bead-active); }
 
         .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center;
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px); z-index: 2000; align-items: center; justify-content: center;
         }
         .modal-content {
-            background: #1e293b; border: 4px solid var(--primary); border-radius: 30px;
-            padding: 30px; max-width: 450px; width: 90%; text-align: center;
+            background: #1e293b; border: 2px solid rgba(139, 92, 246, 0.5); border-radius: 35px;
+            max-width: 500px; width: 92%; text-align: center;
+            max-height: 85vh; display: flex; flex-direction: column;
+            overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-body {
+            overflow-y: auto; padding: 20px 30px; flex-grow: 1;
+            scrollbar-width: thin; scrollbar-color: var(--primary) transparent;
+        }
+
+        .modal-body::-webkit-scrollbar { width: 6px; }
+        .modal-body::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .modal-footer {
+            padding: 20px; background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
         }
 
         .stat-card {
             background: rgba(30, 41, 59, 0.8); padding: 8px 12px; border-radius: 15px;
-            border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center;
-            min-width: 100px;
+            border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; min-width: 100px;
         }
 
         .btn-fancy {
@@ -143,18 +118,23 @@
             transition: 0.3s; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .column-label {
-            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
-            background: #1e293b; color: #94a3b8; padding: 2px 6px; border-radius: 6px;
-            font-size: 0.7rem; white-space: nowrap; font-weight: bold;
+        .history-item {
+            background: linear-gradient(145deg, rgba(51, 65, 85, 0.4), rgba(15, 23, 42, 0.6));
+            border-radius: 20px; padding: 15px; margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease-out forwards; opacity: 0;
         }
-        
-        .level-progress-bar {
-            width: 100%; height: 6px; background: #334155; border-radius: 10px; margin-top: 5px; overflow: hidden;
+
+        @keyframes slideIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .close-footer-btn {
+            width: 100%; background: var(--primary); color: white;
+            padding: 14px; border-radius: 18px; font-weight: 900;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+            transition: all 0.2s; border: none; cursor: pointer;
         }
-        .level-progress-fill {
-            height: 100%; background: var(--bead-active); transition: width 0.5s ease;
-        }
+        .close-footer-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
         .corner-btn {
             position: fixed; top: 20px; z-index: 1000;
@@ -166,29 +146,61 @@
 
         .reset-skill-btn {
             position: fixed; top: 20px; z-index: 1000;
-            padding: 8px; border-radius: 12px;
+            padding: 10px; border-radius: 12px;
             background: rgba(239, 68, 68, 0.1); backdrop-filter: blur(10px);
-            border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;
         }
+
+        .history-btn {
+            position: fixed; top: 75px; z-index: 1000;
+            padding: 10px; border-radius: 12px;
+            background: rgba(139, 92, 246, 0.1); backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.2); color: #8b5cf6;
+        }
+        
+        .level-progress-bar { width: 100%; height: 6px; background: #334155; border-radius: 10px; margin-top: 5px; overflow: hidden; }
+        .level-progress-fill { height: 100%; background: var(--bead-active); transition: width 0.5s ease; }
+        
+        .reset-option-btn {
+            width: 100%; padding: 14px; border-radius: 18px; font-weight: bold;
+            margin-bottom: 12px; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03);
+        }
+        .reset-option-btn:hover { background: rgba(255,255,255,0.08); }
     </style>
 </head>
 <body>
 
     <button id="langBtn" onclick="toggleLanguage()" class="corner-btn"></button>
-    <button id="resetSkillBtn" onclick="confirmResetSkill()" class="reset-skill-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+    <button id="resetSkillBtn" title="إعادة ضبط" onclick="confirmResetSkill()" class="reset-skill-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+    </button>
+    <button id="historyBtn" title="سجل الإنجازات" onclick="toggleHistory()" class="history-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
     </button>
 
     <div id="universalModal" class="modal-overlay">
         <div class="modal-content">
-            <div id="modalIcon" class="text-6xl mb-4">🌟</div>
-            <h2 id="modalTitle" class="text-2xl font-black mb-2"></h2>
-            <p id="modalDesc" class="text-slate-300 mb-6"></p>
-            <div class="flex flex-wrap gap-4 justify-center" id="modalButtons"></div>
+            <div class="modal-header p-6 pb-2">
+                <div id="modalIcon" class="text-5xl mb-3">🌟</div>
+                <h2 id="modalTitle" class="text-2xl font-black"></h2>
+            </div>
+            
+            <div class="modal-body" id="modalBody">
+                <div id="modalCustomContent"></div>
+                <p id="modalDesc" class="text-slate-400 mb-4"></p>
+                <div id="modalActionButtons" class="flex flex-col gap-2"></div>
+            </div>
+
+            <div class="modal-footer" id="modalFooter">
+                <!-- زر الإغلاق سيظهر هنا دائماً -->
+            </div>
         </div>
     </div>
 
-    <h1 id="appLogo" class="logo-animated">مِعداد الذكاء</h1>
+    <div class="logo-container">
+        <h1 id="appLogo" class="logo-animated">مِعداد الذكاء</h1>
+    </div>
 
     <div class="system-toggle mt-4">
         <div id="btnManualMode" onclick="switchSystem('manual')" class="toggle-btn active">الوضع اليدوي</div>
@@ -200,13 +212,11 @@
             <span id="manualLabel" class="text-[10px] uppercase font-black text-indigo-400">القاعدة المختارة</span>
             <select id="levelSelector" onchange="manualLevelChanged(this.value)" class="bg-slate-900 border-none rounded-lg p-1 text-white font-bold text-xs mt-1"></select>
         </div>
-
         <div class="stat-card border-amber-500">
             <span id="autoLabel" class="text-[10px] uppercase font-black text-amber-400">مستوى التقدم</span>
             <span id="autoLevelBadge" class="text-lg font-black text-amber-200">1</span>
             <div class="level-progress-bar"><div id="progressFill" class="level-progress-fill" style="width: 0.2%"></div></div>
         </div>
-
         <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy">تحدي جديد 🎯</button>
     </div>
 
@@ -216,17 +226,14 @@
 
     <div class="flex gap-4 mb-4">
         <div class="bg-slate-800/60 px-4 py-1 rounded-xl border-2 border-rose-500 flex items-center gap-2">
-            <span>🕒</span>
-            <span id="timer" class="font-black">0</span>
+            <span>🕒</span><span id="timer" class="font-black">0</span>
         </div>
         <div class="bg-slate-800/60 px-4 py-1 rounded-xl border-2 border-indigo-500 flex items-center gap-2">
-            <span onclick="toggleEye()" class="cursor-pointer">👁️</span>
-            <span id="total" class="font-black text-amber-500 opacity-5 blur-md transition-all">0</span>
+            <span onclick="toggleEye()" class="cursor-pointer">👁️</span><span id="total" class="font-black text-amber-500 opacity-5 blur-md transition-all">0</span>
         </div>
     </div>
 
     <div class="abacus-frame" id="rodsGrid"></div>
-    
     <button onclick="resetAbacus()" id="btnClear" class="mt-4 text-slate-400 underline text-sm">تصفير المعداد</button>
 
     <script>
@@ -234,74 +241,24 @@
         let systemMode = localStorage.getItem('abacus_mode') || 'manual';
         let autoLevel = parseInt(localStorage.getItem('abacus_auto_level')) || 1; 
         let manualLevel = parseInt(localStorage.getItem('abacus_manual_level')) || 1;
-        
         let usedNumbers = JSON.parse(localStorage.getItem('abacus_used_numbers')) || [];
-        let targetNum = null;
-        let timerInterval, sec = 0;
-        let eyeVisible = false;
+        let solvedHistory = JSON.parse(localStorage.getItem('abacus_history')) || [];
+        let targetNum = null, timerInterval, sec = 0, eyeVisible = false;
 
         const i18n = {
             ar: {
-                logo: "مِعداد الذكاء",
-                langBtn: "English",
-                manualBtn: "الوضع اليدوي",
-                autoBtn: "المستويات (1 - 500)",
-                manualLabel: "القاعدة المختارة",
-                autoLabel: "مستوى التقدم",
-                startBtn: "تحدي جديد 🎯",
-                clearBtn: "تصفير المعداد",
-                challenge: "مثل الرقم: ",
-                successTitle: "أحسنت! 🏆",
-                successDescAuto: "لقد اجتزت التحدي بنجاح! أنت الآن في المستوى ",
-                successDescManual: "لقد مثلت الرقم بشكل صحيح تماماً.",
-                nextChallenge: "التحدي التالي",
-                colNames: ["ملايين", "١٠٠ ألف", "١٠ آلاف", "ألف", "مئات", "عشرات", "آحاد"],
-                levels: ["الآحاد", "العشرات", "المئات", "الألوف", "عشرات الألوف", "مئات الألوف", "الملايين"],
-                confirmResetTitle: "إعادة تصفير المستوى؟",
-                confirmResetDesc: "سيتم حذف التقدم التلقائي والعودة للمستوى 1. هل أنت متأكد؟",
-                resetNow: "نعم، ابدأ من جديد",
-                cancel: "إلغاء"
+                logo: "مِعداد الذكاء", langBtn: "English", manualBtn: "الوضع اليدوي", autoBtn: "المستويات (1 - 500)", manualLabel: "القاعدة المختارة", autoLabel: "مستوى التقدم", startBtn: "تحدي جديد 🎯", clearBtn: "تصفير المعداد", challenge: "مثل الرقم: ", successTitle: "أحسنت! 🏆", successDescAuto: "لقد اجتزت التحدي بنجاح! أنت الآن في المستوى ", successDescManual: "لقد مثلت الرقم بشكل صحيح تماماً.", nextChallenge: "التحدي التالي", colNames: ["ملايين", "١٠٠ ألف", "١٠ آلاف", "ألف", "مئات", "عشرات", "آحاد"], levels: ["الآحاد", "العشرات", "المئات", "الألوف", "عشرات الألوف", "مئات الألوف", "الملايين"], confirmResetTitle: "خيارات التصفير", resetLevels: "تصفير المستويات فقط", resetHistory: "مسح سجل المسائل فقط", resetAll: "تصفير كل شيء", cancel: "رجوع", historyTitle: "سجل الإنجازات 📜", emptyHistory: "لا يوجد مسائل مسجلة بعد.", solvedOn: "حُل في: ", timeTaken: "الوقت: ", seconds: "ثوانٍ", levelPrefix: "مستوى: ", close: "إغلاق النافذة"
             },
             en: {
-                logo: "MindAbacus",
-                langBtn: "العربية",
-                manualBtn: "Manual Mode",
-                autoBtn: "Levels (1 - 500)",
-                manualLabel: "Selected Base",
-                autoLabel: "Progress Level",
-                startBtn: "New Challenge 🎯",
-                clearBtn: "Clear Abacus",
-                challenge: "Show Number: ",
-                successTitle: "Well Done! 🏆",
-                successDescAuto: "Challenge Solved! You are now at Level ",
-                successDescManual: "You represented the number perfectly.",
-                nextChallenge: "Next Challenge",
-                colNames: ["Millions", "100K", "10K", "Thousands", "Hundreds", "Tens", "Units"],
-                levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"],
-                confirmResetTitle: "Reset Progress?",
-                confirmResetDesc: "Automatic progress will be cleared to Level 1. Are you sure?",
-                resetNow: "Yes, Reset",
-                cancel: "Cancel"
+                logo: "MindAbacus", langBtn: "العربية", manualBtn: "Manual Mode", autoBtn: "Levels (1 - 500)", manualLabel: "Selected Base", autoLabel: "Progress Level", startBtn: "New Challenge 🎯", clearBtn: "Clear Abacus", challenge: "Show Number: ", successTitle: "Well Done! 🏆", successDescAuto: "Challenge Solved! You are now at Level ", successDescManual: "You represented the number perfectly.", nextChallenge: "Next Challenge", colNames: ["Millions", "100K", "10K", "Thousands", "Hundreds", "Tens", "Units"], levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"], confirmResetTitle: "Reset Options", resetLevels: "Reset Levels Only", resetHistory: "Clear History Only", resetAll: "Reset Everything", cancel: "Cancel", historyTitle: "Achievement Log 📜", emptyHistory: "No solved challenges yet.", solvedOn: "Solved on: ", timeTaken: "Time: ", seconds: "seconds", levelPrefix: "Level: ", close: "Close Window"
             }
         };
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('abacus_lang', currentLang);
-            applyUI();
-        }
-
-        function switchSystem(mode) {
-            systemMode = mode;
-            localStorage.setItem('abacus_mode', mode);
-            applyUI();
-            resetAbacus();
-            document.getElementById('challengeBox').classList.add('hidden');
-        }
+        function toggleLanguage() { currentLang = currentLang === 'ar' ? 'en' : 'ar'; localStorage.setItem('abacus_lang', currentLang); applyUI(); }
+        function switchSystem(mode) { systemMode = mode; localStorage.setItem('abacus_mode', mode); applyUI(); resetAbacus(); document.getElementById('challengeBox').classList.add('hidden'); }
 
         function applyUI() {
-            const t = i18n[currentLang];
-            const isAr = currentLang === 'ar';
+            const t = i18n[currentLang], isAr = currentLang === 'ar';
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('appLogo').innerText = t.logo;
             document.getElementById('langBtn').innerText = t.langBtn;
@@ -312,13 +269,10 @@
             document.getElementById('btnChallenge').innerText = t.startBtn;
             document.getElementById('btnClear').innerText = t.clearBtn;
             
-            const langBtn = document.getElementById('langBtn');
-            const resBtn = document.getElementById('resetSkillBtn');
-            if(isAr) { langBtn.style.left="20px"; langBtn.style.right="auto"; resBtn.style.right="20px"; resBtn.style.left="auto"; }
-            else { langBtn.style.right="20px"; langBtn.style.left="auto"; resBtn.style.left="20px"; resBtn.style.right="auto"; }
-
-            updateUIState();
-            initAbacus();
+            const lBtn = document.getElementById('langBtn'), rBtn = document.getElementById('resetSkillBtn'), hBtn = document.getElementById('historyBtn');
+            if(isAr) { lBtn.style.left="20px"; lBtn.style.right="auto"; rBtn.style.right="20px"; rBtn.style.left="auto"; hBtn.style.right="20px"; hBtn.style.left="auto"; } 
+            else { lBtn.style.right="20px"; lBtn.style.left="auto"; rBtn.style.left="20px"; rBtn.style.right="auto"; hBtn.style.left="20px"; hBtn.style.right="auto"; }
+            updateUIState(); initAbacus();
         }
 
         function updateUIState() {
@@ -328,170 +282,108 @@
             document.getElementById('manualCard').style.display = isManual ? 'flex' : 'none';
             document.getElementById('autoLevelBadge').innerText = autoLevel;
             document.getElementById('progressFill').style.width = `${(autoLevel / 500) * 100}%`;
-            
-            const selector = document.getElementById('levelSelector');
-            selector.innerHTML = '';
-            i18n[currentLang].levels.forEach((name, i) => {
-                const opt = document.createElement('option');
-                opt.value = i + 1; opt.innerText = name;
-                opt.selected = (i + 1 === manualLevel);
-                selector.appendChild(opt);
-            });
+            const sel = document.getElementById('levelSelector'); sel.innerHTML = '';
+            i18n[currentLang].levels.forEach((name, i) => { const opt = document.createElement('option'); opt.value = i+1; opt.innerText = name; opt.selected = (i+1 === manualLevel); sel.appendChild(opt); });
         }
 
         function initAbacus() {
-            const grid = document.getElementById('rodsGrid');
-            grid.innerHTML = '<div class="middle-beam"></div>';
+            const grid = document.getElementById('rodsGrid'); grid.innerHTML = '<div class="middle-beam"></div>';
             for(let i=0; i<7; i++) {
-                const col = document.createElement('div');
-                col.className = 'column';
-                col.innerHTML = `
-                    <div class="column-label">${i18n[currentLang].colNames[i]}</div>
-                    <div class="rod"></div>
-                    <div class="bead bead-5" onclick="toggleBead(this)">5</div>
-                    <div class="bead bead-1 idx-1" onclick="handleLower(this, 1)">1</div>
-                    <div class="bead bead-1 idx-2" onclick="handleLower(this, 2)">1</div>
-                    <div class="bead bead-1 idx-3" onclick="handleLower(this, 3)">1</div>
-                    <div class="bead bead-1 idx-4" onclick="handleLower(this, 4)">1</div>
-                `;
+                const col = document.createElement('div'); col.className = 'column';
+                col.innerHTML = `<div class="rod"></div><div class="bead bead-5" onclick="toggleBead(this)">5</div><div class="bead bead-1 idx-1" onclick="handleLower(this, 1)">1</div><div class="bead bead-1 idx-2" onclick="handleLower(this, 2)">1</div><div class="bead bead-1 idx-3" onclick="handleLower(this, 3)">1</div><div class="bead bead-1 idx-4" onclick="handleLower(this, 4)">1</div><div style="position:absolute;bottom:-35px;font-size:0.6rem;color:#64748b;font-weight:900">${i18n[currentLang].colNames[i]}</div>`;
                 grid.appendChild(col);
             }
         }
 
         function generateChallenge() {
-            resetAbacus();
-            sec = 0; clearInterval(timerInterval);
+            resetAbacus(); sec = 0; clearInterval(timerInterval);
             timerInterval = setInterval(() => { sec++; document.getElementById('timer').innerText = sec; }, 1000);
-
-            let digits;
-            if (systemMode === 'manual') {
-                digits = manualLevel;
-            } else {
-                // نظام صعوبة متدرج حقيقي لـ 500 مستوى:
-                // مستويات 1-10: آحاد فقط (لكن أرقام متنوعة)
-                // مستويات 11-30: عشرات بسيطة
-                // مستويات 31-100: مئات
-                // وهكذا حتى الملايين
-                if (autoLevel <= 10) digits = 1;
-                else if (autoLevel <= 40) digits = 2;
-                else if (autoLevel <= 100) digits = 3;
-                else if (autoLevel <= 200) digits = 4;
-                else if (autoLevel <= 300) digits = 5;
-                else if (autoLevel <= 400) digits = 6;
-                else digits = 7;
-            }
-
-            const min = 10n ** BigInt(digits - 1);
-            const max = (10n ** BigInt(digits)) - 1n;
-            
-            let newTarget;
-            let attempts = 0;
-            do {
-                // حساب رقم عشوائي ضمن المدى
-                const range = max - min + 1n;
-                const randomOffset = BigInt(Math.floor(Math.random() * Number(range > 1000000n ? 1000000 : range)));
-                newTarget = min + randomOffset;
-                attempts++;
-                // إذا كان المستوى عالياً، نفضل الأرقام التي تحتوي على 5 أو خرزات أكثر لزيادة الصعوبة
-                if (systemMode === 'auto' && autoLevel > 20 && attempts < 10) {
-                    if (newTarget % 10n === 0n) continue; 
-                }
-            } while (usedNumbers.includes(newTarget.toString()) && attempts < 50);
-
-            targetNum = newTarget;
-            usedNumbers.push(targetNum.toString());
-            if (usedNumbers.length > 100) usedNumbers.shift(); // الحفاظ على آخر 100 رقم فقط لمنع التكرار
+            let digits = systemMode === 'manual' ? manualLevel : (autoLevel <= 10 ? 1 : autoLevel <= 40 ? 2 : autoLevel <= 100 ? 3 : autoLevel <= 200 ? 4 : autoLevel <= 300 ? 5 : autoLevel <= 400 ? 6 : 7);
+            const min = 10n ** BigInt(digits - 1), max = (10n ** BigInt(digits)) - 1n;
+            let nt; do { nt = min + BigInt(Math.floor(Math.random() * Number(max - min + 1n))); } while (usedNumbers.includes(nt.toString()));
+            targetNum = nt; usedNumbers.push(nt.toString()); if(usedNumbers.length > 100) usedNumbers.shift();
             localStorage.setItem('abacus_used_numbers', JSON.stringify(usedNumbers));
-
             document.getElementById('challengeBox').classList.remove('hidden');
             document.getElementById('challengeText').innerText = i18n[currentLang].challenge + targetNum.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
         }
 
         function updateDisplayValue() {
-            let total = 0n;
-            const cols = document.querySelectorAll('.column');
-            cols.forEach((col, i) => {
-                let v = col.querySelector('.bead-5').classList.contains('active') ? 5 : 0;
-                v += col.querySelectorAll('.bead-1.active').length;
-                total += BigInt(v) * (10n ** BigInt(cols.length - 1 - i));
-            });
+            let total = 0n; const cols = document.querySelectorAll('.column');
+            cols.forEach((col, i) => { let v = col.querySelector('.bead-5').classList.contains('active') ? 5 : 0; v += col.querySelectorAll('.bead-1.active').length; total += BigInt(v) * (10n ** BigInt(cols.length - 1 - i)); });
             document.getElementById('total').innerText = total.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
             return total;
         }
 
         function checkResult() {
-            const current = updateDisplayValue();
-            if (targetNum !== null && current === targetNum) {
+            const cur = updateDisplayValue();
+            if (targetNum !== null && cur === targetNum) {
                 clearInterval(timerInterval);
-                if (systemMode === 'auto' && autoLevel < 500) {
-                    autoLevel++;
-                    localStorage.setItem('abacus_auto_level', autoLevel);
-                }
+                const rec = { num: targetNum.toString(), time: sec, timestamp: Date.now(), levelNum: systemMode === 'auto' ? autoLevel : manualLevel, mode: systemMode };
+                solvedHistory.unshift(rec); if(solvedHistory.length > 50) solvedHistory.pop();
+                localStorage.setItem('abacus_history', JSON.stringify(solvedHistory));
+                if (systemMode === 'auto' && autoLevel < 500) { autoLevel++; localStorage.setItem('abacus_auto_level', autoLevel); }
                 setTimeout(() => openModal('success'), 300);
             }
         }
 
         function openModal(type) {
-            const m = document.getElementById('universalModal');
-            const t = i18n[currentLang];
-            const btnArea = document.getElementById('modalButtons');
-            btnArea.innerHTML = '';
+            const m = document.getElementById('universalModal'), t = i18n[currentLang];
+            const content = document.getElementById('modalCustomContent'), desc = document.getElementById('modalDesc');
+            const footer = document.getElementById('modalFooter'), actions = document.getElementById('modalActionButtons');
+            
+            content.innerHTML = ''; desc.innerText = ''; footer.innerHTML = ''; actions.innerHTML = '';
 
             if (type === 'success') {
-                document.getElementById('modalTitle').innerText = t.successTitle;
-                document.getElementById('modalDesc').innerText = systemMode === 'auto' ? t.successDescAuto + autoLevel : t.successDescManual;
-                btnArea.innerHTML = `<button id="nextLevelBtn" onclick="closeModal(); generateChallenge();" class="bg-emerald-600 px-6 py-2 rounded-xl font-bold">${t.nextChallenge}</button>`;
-                // Focus for easy interaction
-                setTimeout(() => document.getElementById('nextLevelBtn')?.focus(), 100);
-            } else if (type === 'reset') {
-                document.getElementById('modalTitle').innerText = t.confirmResetTitle;
-                document.getElementById('modalDesc').innerText = t.confirmResetDesc;
-                btnArea.innerHTML = `
-                    <button onclick="executeReset();" class="bg-rose-600 px-6 py-2 rounded-xl font-bold">${t.resetNow}</button>
-                    <button onclick="closeModal();" class="bg-slate-700 px-6 py-2 rounded-xl font-bold">${t.cancel}</button>
-                `;
+                document.getElementById('modalIcon').innerText = "🌟"; document.getElementById('modalTitle').innerText = t.successTitle;
+                desc.innerText = systemMode === 'auto' ? t.successDescAuto + autoLevel : t.successDescManual;
+                footer.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="close-footer-btn bg-emerald-600">${t.nextChallenge}</button>`;
+            } 
+            else if (type === 'history') {
+                document.getElementById('modalIcon').innerText = "📜"; document.getElementById('modalTitle').innerText = t.historyTitle;
+                if (solvedHistory.length === 0) desc.innerText = t.emptyHistory;
+                else {
+                    solvedHistory.forEach((item, idx) => {
+                        const d = new Date(item.timestamp).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
+                        const lStr = item.mode === 'auto' ? `${t.levelPrefix} ${item.levelNum}` : `${t.levelPrefix} ${i18n[currentLang].levels[item.levelNum-1]}`;
+                        const div = document.createElement('div'); div.className = 'history-item';
+                        div.style.animationDelay = `${idx * 0.05}s`;
+                        div.innerHTML = `<div class="flex justify-between items-start"><span class="font-black text-amber-500 text-xl"># ${BigInt(item.num).toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US')}</span><span class="text-[10px] bg-indigo-500/20 px-2 py-1 rounded-md text-indigo-300 font-bold">${lStr}</span></div><div class="text-[11px] text-slate-400 mt-2">📅 ${t.solvedOn} ${d}</div><div class="text-[11px] font-bold text-emerald-400 mt-1">⏱️ ${t.timeTaken} ${item.time} ${t.seconds}</div>`;
+                        content.appendChild(div);
+                    });
+                }
+                // زر الإغلاق الثابت هنا
+                footer.innerHTML = `<button onclick="closeModal();" class="close-footer-btn">${t.close}</button>`;
             }
-            m.style.display = "flex";
-            updateUIState();
+            else if (type === 'reset') {
+                document.getElementById('modalIcon').innerText = "⚙️"; document.getElementById('modalTitle').innerText = t.confirmResetTitle;
+                actions.innerHTML = `
+                    <button onclick="executeReset('levels');" class="reset-option-btn text-indigo-300 border-indigo-500/30">${t.resetLevels}</button>
+                    <button onclick="executeReset('history');" class="reset-option-btn text-amber-300 border-amber-500/30">${t.resetHistory}</button>
+                    <button onclick="executeReset('all');" class="reset-option-btn text-rose-300 border-rose-500/30">${t.resetAll}</button>
+                `;
+                footer.innerHTML = `<button onclick="closeModal();" class="close-footer-btn bg-slate-700">${t.cancel}</button>`;
+            }
+            m.style.display = "flex"; document.getElementById('modalBody').scrollTop = 0;
         }
 
-        function executeReset() {
-            autoLevel = 1;
-            usedNumbers = [];
-            localStorage.setItem('abacus_auto_level', 1);
-            localStorage.setItem('abacus_used_numbers', JSON.stringify([]));
-            closeModal();
-            applyUI();
-            resetAbacus();
-            document.getElementById('challengeBox').classList.add('hidden');
+        function executeReset(type) {
+            if(type === 'levels' || type === 'all') { autoLevel = 1; localStorage.setItem('abacus_auto_level', 1); }
+            if(type === 'history' || type === 'all') { solvedHistory = []; usedNumbers = []; localStorage.setItem('abacus_history', JSON.stringify([])); localStorage.setItem('abacus_used_numbers', JSON.stringify([])); }
+            closeModal(); applyUI(); resetAbacus(); document.getElementById('challengeBox').classList.add('hidden');
         }
 
         function closeModal() { document.getElementById('universalModal').style.display = "none"; }
+        function toggleHistory() { openModal('history'); }
         function confirmResetSkill() { openModal('reset'); }
         function toggleBead(el) { el.classList.toggle('active'); checkResult(); }
         function handleLower(el, idx) {
-            const beads = el.parentElement.querySelectorAll('.bead-1');
-            const isActive = el.classList.contains('active');
-            beads.forEach((b, i) => {
-                if(!isActive && (i+1) <= idx) b.classList.add('active');
-                else if(isActive && (i+1) >= idx) b.classList.remove('active');
-            });
+            const beads = el.parentElement.querySelectorAll('.bead-1'), isActive = el.classList.contains('active');
+            beads.forEach((b, i) => { if(!isActive && (i+1) <= idx) b.classList.add('active'); else if(isActive && (i+1) >= idx) b.classList.remove('active'); });
             checkResult();
         }
         function resetAbacus() { document.querySelectorAll('.bead').forEach(b => b.classList.remove('active')); updateDisplayValue(); }
-        function toggleEye() {
-            eyeVisible = !eyeVisible;
-            const t = document.getElementById('total');
-            t.style.opacity = eyeVisible ? "1" : "0.05";
-            t.style.filter = eyeVisible ? "blur(0)" : "blur(10px)";
-        }
-        function manualLevelChanged(val) {
-            manualLevel = parseInt(val);
-            localStorage.setItem('abacus_manual_level', manualLevel);
-            resetAbacus();
-            document.getElementById('challengeBox').classList.add('hidden');
-        }
-
+        function toggleEye() { eyeVisible = !eyeVisible; const t = document.getElementById('total'); t.style.opacity = eyeVisible ? "1" : "0.05"; t.style.filter = eyeVisible ? "blur(0)" : "blur(10px)"; }
+        function manualLevelChanged(val) { manualLevel = parseInt(val); localStorage.setItem('abacus_manual_level', manualLevel); resetAbacus(); document.getElementById('challengeBox').classList.add('hidden'); }
         window.onload = applyUI;
     </script>
 </body>
