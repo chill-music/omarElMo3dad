@@ -166,6 +166,17 @@
             text-overflow: ellipsis;
         }
 
+        footer {
+            margin-top: auto;
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
         @media (max-width: 600px) {
             .abacus-frame { padding-top: 60px; } 
             .column-label { top: -35px; }
@@ -225,9 +236,11 @@
         <button onclick="resetAbacus()" id="btnClear" class="mt-8 text-slate-400 hover:text-white transition-colors underline decoration-dotted text-sm"></button>
     </div>
 
+    <footer id="pageFooter"></footer>
+
     <script>
         let autoDifficulty = parseInt(localStorage.getItem('abacus_difficulty')) || 1;
-        let selectedLevel = autoDifficulty; // المستوى المختار يدوياً عبر القائمة
+        let selectedLevel = autoDifficulty; 
         let currentLang = localStorage.getItem('abacus_lang') || 'ar';
         let targetNum = null;
         let sec = 0, timerInterval;
@@ -252,7 +265,8 @@
                 confirmResetTitle: "إعادة تصفير المستوى؟",
                 confirmResetDesc: "سيتم حذف الرتبة الكلية والعودة إلى المستوى الأول. هل أنت متأكد؟",
                 resetBtn: "نعم، ابدأ من جديد",
-                cancelBtn: "إلغاء"
+                cancelBtn: "إلغاء",
+                copyright: "جميع الحقوق محفوظة © عمر"
             },
             en: {
                 logo: "MindAbacus",
@@ -272,7 +286,8 @@
                 confirmResetTitle: "Reset Progress?",
                 confirmResetDesc: "Your total rank will be cleared and you will return to level 1. Are you sure?",
                 resetBtn: "Yes, Reset Now",
-                cancelBtn: "Cancel"
+                cancelBtn: "Cancel",
+                copyright: "All Rights Reserved © Omar"
             }
         };
 
@@ -290,6 +305,8 @@
         function applyUI() {
             const t = i18n[currentLang];
             const isAr = currentLang === 'ar';
+            const currentYear = new Date().getFullYear();
+            
             document.title = t.logo;
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('appLogo').innerText = t.logo;
@@ -300,6 +317,7 @@
             document.getElementById('btnClear').innerText = t.clearBtn;
             document.getElementById('autoLevelBadge').innerText = formatNum(autoDifficulty);
             document.getElementById('timer').innerText = formatNum(sec);
+            document.getElementById('pageFooter').innerText = `${t.copyright} ${formatNum(currentYear)}`;
             
             const selector = document.getElementById('levelSelector');
             selector.innerHTML = '';
@@ -356,7 +374,6 @@
             const total = updateDisplayValue();
             if(targetNum !== null && total === targetNum) {
                 stopTimer();
-                // إذا كان المستوى الذي حله المستخدم أكبر أو يساوي رتبته الحالية، نزيده
                 if(selectedLevel >= autoDifficulty && autoDifficulty < 7) {
                     autoDifficulty++;
                     localStorage.setItem('abacus_difficulty', autoDifficulty);
@@ -380,7 +397,6 @@
 
         function generateChallenge() {
             resetAbacus(); startTimer();
-            // نستخدم selectedLevel المربوط بالقائمة المنسدلة حصراً
             const min = 10n ** BigInt(selectedLevel - 1);
             const max = (10n ** BigInt(selectedLevel)) - 1n;
             const range = max - min + 1n;
@@ -447,9 +463,7 @@
         }
 
         function manualLevelChanged(val) { 
-            // تحديث المستوى المختار فقط دون التأثير على أي شيء آخر
             selectedLevel = parseInt(val); 
-            // التصفير فقط للاستعداد للتحدي القادم بهذا المستوى
             resetAbacus(); 
             document.getElementById('challengeBox').classList.add('hidden'); 
             targetNum = null; 
