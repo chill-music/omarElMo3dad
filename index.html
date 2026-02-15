@@ -19,7 +19,9 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #1e1b4b, #0f172a);
+            background: linear-gradient(-45deg, #1e1b4b, #0f172a, #1e293b, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             min-height: 100vh;
             color: white;
             font-family: 'Cairo', 'Poppins', sans-serif;
@@ -28,6 +30,12 @@
             overflow-x: hidden;
             touch-action: manipulation;
             padding-bottom: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* FAB Menu Styling */
@@ -54,7 +62,7 @@
             cursor: pointer;
             z-index: 1001;
             font-size: 1.5rem;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background 0.3s;
         }
         .fab-main.open { transform: rotate(90deg); background: #6d28d9; }
 
@@ -78,9 +86,76 @@
             background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); 
             border: 1px solid rgba(255,255,255,0.1); color: white; cursor: pointer;
             width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem;
         }
-        .corner-btn:hover { background: var(--primary); transform: scale(1.05); }
+        .corner-btn:hover { 
+            background: var(--primary); 
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* Level Badge & Progress Bar */
+        .level-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .level-badge-animated {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #1e1b4b;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            animation: pulseLevel 2s infinite ease-in-out;
+        }
+        @keyframes pulseLevel {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(251, 191, 36, 0.8); }
+        }
+        .progress-bar-bg {
+            width: 80px; height: 6px; background: rgba(255,255,255,0.1);
+            border-radius: 10px; overflow: hidden; position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%; background: linear-gradient(to right, #fbbf24, #fde68a);
+            width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px #fbbf24;
+        }
+
+        /* Animated Reset/History Buttons inside Modal */
+        .animated-modal-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(30, 41, 59, 0.9);
+            color: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            width: 100%;
+            margin-bottom: 0.75rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .animated-modal-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .animated-modal-btn span {
+            animation: textPulse 2s infinite;
+        }
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+        }
 
         /* Animated Logo */
         .logo-animated {
@@ -115,19 +190,26 @@
 
         /* Abacus Frame */
         .abacus-frame {
-            background: var(--wood); padding: 50px 10px 30px; border: 10px solid #1a130e; 
+            background: var(--wood); padding: 60px 10px 30px; border: 10px solid #1a130e; 
             border-radius: 35px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            display: flex; gap: clamp(2px, 1.2vw, 12px); max-width: 96vw; margin-top: 5px; justify-content: center;
+            display: flex; gap: clamp(2px, 1.2vw, 12px); max-width: 96vw; margin-top: 15px; justify-content: center;
         }
 
         .middle-beam { 
-            position: absolute; left: 0; right: 0; top: 145px; height: 16px; 
+            position: absolute; left: 0; right: 0; top: 155px; height: 16px; 
             background: #2a1d15; z-index: 50; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8); 
         }
 
         .column { width: clamp(38px, 12vw, 80px); height: 420px; position: relative; display: flex; flex-direction: column; align-items: center; }
         .rod { position: absolute; left: 50%; transform: translateX(-50%); width: 6px; height: 100%; background: linear-gradient(to right, #334155, #94a3b8, #334155); z-index: 1; }
         
+        /* أسماء الخانات فوق العواميد */
+        .column-label {
+            position: absolute; top: -45px; font-weight: 900; color: #fbbf24;
+            font-size: 0.75rem; text-align: center; width: 100%;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
         .bead { 
             width: 95%; height: 36px; clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%); 
             position: absolute; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
@@ -137,21 +219,23 @@
         .bead-5 { background: var(--bead-5); top: 12px; }
         .bead-5.active { transform: translateY(85px); background: var(--bead-active); }
         .bead-1 { background: var(--bead-1); }
-        .idx-1 { top: 175px; } .idx-2 { top: 215px; } .idx-3 { top: 255px; } .idx-4 { top: 295px; }
+        .idx-1 { top: 185px; } .idx-2 { top: 225px; } .idx-3 { top: 265px; } .idx-4 { top: 305px; }
         .bead-1.active { transform: translateY(-30px); background: var(--bead-active); }
 
         .modal-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
             backdrop-filter: blur(15px); z-index: 2000; align-items: center; justify-content: center;
         }
+        
         .modal-content {
             background: #1e293b; border: 2px solid rgba(139, 92, 246, 0.3); border-radius: 30px;
             max-width: 450px; width: 92%; text-align: center; overflow: hidden;
+            animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .stat-card {
-            background: rgba(30, 41, 59, 0.8); padding: 6px 10px; border-radius: 12px;
-            border: 2px solid var(--primary); display: flex; flex-direction: column; align-items: center; min-width: 85px;
+        @keyframes modalIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .btn-fancy {
@@ -160,31 +244,40 @@
             transition: 0.3s; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
             font-size: 0.9rem;
         }
+        .btn-fancy:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5); }
 
-        .level-progress-bar { width: 100%; height: 5px; background: #334155; border-radius: 10px; margin-top: 4px; overflow: hidden; }
-        .level-progress-fill { height: 100%; background: var(--bead-active); transition: width 0.5s ease; }
+        .footer-credits {
+            margin-top: 40px; padding: 20px; text-align: center;
+            font-size: 0.85rem; color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1); width: 80%;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .facebook-link {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; background: #1877F2; border-radius: 50%;
+            color: white; transition: 0.3s;
+        }
+        .facebook-link:hover { transform: scale(1.2) rotate(10deg); }
 
         @media (max-width: 640px) {
             .column { height: 380px; }
-            .middle-beam { top: 135px; }
-            .idx-1 { top: 165px; } .idx-2 { top: 200px; } .idx-3 { top: 235px; } .idx-4 { top: 270px; }
+            .middle-beam { top: 145px; }
+            .idx-1 { top: 175px; } .idx-2 { top: 210px; } .idx-3 { top: 245px; } .idx-4 { top: 280px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Dynamic FAB Menu -->
     <div class="fab-container" id="fabContainer">
         <div class="fab-main" onclick="toggleFab()" id="fabMain">⚙️</div>
         <div class="fab-menu" id="fabMenu">
-            <button onclick="showResetMenu()" class="corner-btn">🔄</button>
-            <button onclick="showHistory()" class="corner-btn">📜</button>
+            <button onclick="showResetMenu()" class="corner-btn" title="Reset">🔄</button>
+            <button onclick="showHistory()" class="corner-btn" title="History">📜</button>
             <button onclick="toggleSound()" class="corner-btn" id="soundToggleBtn">🔊</button>
             <button onclick="toggleLanguage()" class="corner-btn" id="langBtn">EN</button>
         </div>
     </div>
 
-    <!-- Universal Modal -->
     <div id="universalModal" class="modal-overlay">
         <div class="modal-content p-6">
             <div id="modalIcon" class="text-5xl mb-3">🌟</div>
@@ -194,37 +287,36 @@
         </div>
     </div>
 
-    <!-- Header & Logo -->
     <div class="text-center">
         <h1 id="appLogo" class="logo-animated">مِعداد الذكاء</h1>
     </div>
 
-    <!-- System Toggle -->
     <div class="system-toggle">
         <div id="btnManualMode" onclick="switchSystem('manual')" class="toggle-btn"></div>
         <div id="btnAutoMode" onclick="switchSystem('auto')" class="toggle-btn"></div>
     </div>
 
-    <!-- Stats Section -->
     <div class="flex flex-wrap justify-center gap-2 mb-4">
-        <div id="manualCard" class="stat-card">
+        <div id="manualCard" class="stat-card bg-slate-800/80 p-2 rounded-xl border border-indigo-500 flex flex-col items-center">
             <span id="manualLabel" class="text-[9px] uppercase font-black text-indigo-400"></span>
             <select id="levelSelector" onchange="manualLevelChanged(this.value)" class="bg-slate-900 border-none rounded-lg p-1 text-white font-bold text-[10px] mt-1"></select>
         </div>
-        <div id="autoCard" class="stat-card border-amber-500">
-            <span id="autoLabel" class="text-[9px] uppercase font-black text-amber-400"></span>
-            <span id="autoLevelBadge" class="text-sm font-black text-amber-200">1</span>
-            <div class="level-progress-bar"><div id="progressFill" class="level-progress-fill"></div></div>
+        <div id="autoCard" class="stat-card bg-slate-800/80 p-2 rounded-xl border border-amber-500 flex flex-col items-center min-w-[100px]">
+            <span id="autoLabel" class="text-[9px] uppercase font-black text-amber-400 mb-1"></span>
+            <div class="level-container">
+                <span id="autoLevelBadge" class="level-badge-animated">1</span>
+                <div class="progress-bar-bg">
+                    <div id="progressBarFill" class="progress-bar-fill"></div>
+                </div>
+            </div>
         </div>
         <button onclick="generateChallenge()" id="btnChallenge" class="btn-fancy"></button>
     </div>
 
-    <!-- Challenge Box -->
     <div id="challengeBox" class="hidden bg-slate-900/90 border-2 border-amber-500 p-3 rounded-2xl mb-3 shadow-2xl">
         <p id="challengeText" class="text-lg md:text-xl font-black text-amber-400 text-center"></p>
     </div>
 
-    <!-- Status Bar -->
     <div class="flex gap-3 mb-3">
         <div class="bg-slate-800/60 px-3 py-1 rounded-lg border border-rose-500 flex items-center gap-1 text-sm">
             <span>🕒</span><span id="timer" class="font-black">0</span>
@@ -234,9 +326,15 @@
         </div>
     </div>
 
-    <!-- Abacus Grid -->
     <div class="abacus-frame" id="rodsGrid"></div>
     <button onclick="resetAbacus()" id="btnClear" class="mt-3 text-slate-500 underline text-xs"></button>
+
+    <footer class="footer-credits">
+        <p id="copyrightText"></p>
+        <a href="https://facebook.com" class="facebook-link" target="_blank">
+            <svg style="width:14px;height:14px" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.598 1.323-1.325V1.325C24 .597 23.403 0 22.675 0z"/></svg>
+        </a>
+    </footer>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -255,21 +353,23 @@
                 next: "التحدي التالي", clearBtn: "تصفير المعداد",
                 colNames: ["ملايين", "١٠٠ألف", "١٠آلاف", "ألف", "مئة", "عشرة", "آحاد"], 
                 levels: ["آحاد", "عشرات", "مئات", "ألوف", "عشرات ألوف", "مئات ألوف", "ملايين"],
-                historyTitle: "سجل الأبطال", resetTitle: "إعادة الضبط", cancel: "إلغاء",
-                resetLevels: "تصفير المستويات", clearHistory: "مسح السجل", resetAll: "إعادة ضبط المصنع",
+                historyTitle: "سجل الأبطال 📜", resetTitle: "إعادة الضبط 🔄", cancel: "إلغاء",
+                resetLevels: "تصفير المستويات", clearHistory: "مسح سجل المسائل", resetAll: "إعادة ضبط المصنع",
                 timeTaken: "الوقت:", challengeLabel: "مثل الرقم: ", 
-                manualCardLabel: "القاعدة", autoCardLabel: "المستوى"
+                manualCardLabel: "القاعدة", autoCardLabel: "المستوى",
+                copy: `© ${new Date().getFullYear()} مِعداد الذكاء - جميع الحقوق محفوظة لـ عمر`
             },
             en: { 
                 logo: "Mind Abacus", manualBtn: "Manual Mode", autoBtn: "Levels Mode", 
                 startBtn: "New Challenge 🎯", success: "Well Done! 🏆", milestone: "Amazing! 💎", 
                 next: "Next Challenge", clearBtn: "Clear Abacus",
-                colNames: ["Mil", "100K", "10K", "K", "H", "T", "U"], 
+                colNames: ["Millions", "100K", "10K", "K", "H", "T", "U"], 
                 levels: ["Units", "Tens", "Hundreds", "Thousands", "10K", "100K", "Millions"],
-                historyTitle: "Champion History", resetTitle: "Reset Options", cancel: "Cancel",
-                resetLevels: "Reset Levels", clearHistory: "Clear History", resetAll: "Factory Reset",
+                historyTitle: "Champion History 📜", resetTitle: "Reset Options 🔄", cancel: "Cancel",
+                resetLevels: "Reset Levels", clearHistory: "Clear Solved Records", resetAll: "Factory Reset",
                 timeTaken: "Time:", challengeLabel: "Show Number: ",
-                manualCardLabel: "BASE", autoCardLabel: "LEVEL"
+                manualCardLabel: "BASE", autoCardLabel: "LEVEL",
+                copy: `© ${new Date().getFullYear()} Mind Abacus - All rights reserved to Omar`
             }
         };
 
@@ -309,7 +409,7 @@
             currentLang = currentLang === 'ar' ? 'en' : 'ar'; 
             localStorage.setItem('ab_lng', currentLang); 
             updateUI(); 
-            if(targetNum) { // Refresh challenge text if active
+            if(targetNum) {
                 document.getElementById('challengeText').innerText = i18n[currentLang].challengeLabel + targetNum.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
             }
         }
@@ -331,12 +431,12 @@
             document.getElementById('mainHtml').dir = isAr ? 'rtl' : 'ltr';
             document.getElementById('appLogo').innerText = t.logo;
             document.getElementById('pageTitle').innerText = t.logo;
-            document.title = t.logo;
             
             document.getElementById('btnManualMode').innerText = t.manualBtn;
             document.getElementById('btnAutoMode').innerText = t.autoBtn;
             document.getElementById('btnChallenge').innerText = t.startBtn;
             document.getElementById('btnClear').innerText = t.clearBtn;
+            document.getElementById('copyrightText').innerText = t.copy;
             
             document.getElementById('manualLabel').innerText = t.manualCardLabel;
             document.getElementById('autoLabel').innerText = t.autoCardLabel;
@@ -347,7 +447,11 @@
             document.getElementById('autoCard').style.display = systemMode === 'auto' ? 'flex' : 'none';
             
             document.getElementById('autoLevelBadge').innerText = autoLevel;
-            document.getElementById('progressFill').style.width = `${(autoLevel % 10 || 10) * 10}%`;
+            
+            // Update Progress Bar (assuming 10 sub-steps per major milestone)
+            const progress = ((autoLevel - 1) % 10) * 10;
+            document.getElementById('progressBarFill').style.width = `${progress === 0 && autoLevel > 1 ? 100 : progress}%`;
+
             document.getElementById('langBtn').innerText = isAr ? 'EN' : 'AR';
             
             const sel = document.getElementById('levelSelector');
@@ -367,13 +471,13 @@
             for(let i=0; i<7; i++) {
                 const col = document.createElement('div'); col.className = 'column';
                 col.innerHTML = `
+                    <div class="column-label">${i18n[currentLang].colNames[i]}</div>
                     <div class="rod"></div>
                     <div class="bead bead-5" onclick="toggleBead(this)">5</div>
                     <div class="bead bead-1 idx-1" onclick="handleLower(this, 1)">1</div>
                     <div class="bead bead-1 idx-2" onclick="handleLower(this, 2)">1</div>
                     <div class="bead bead-1 idx-3" onclick="handleLower(this, 3)">1</div>
                     <div class="bead bead-1 idx-4" onclick="handleLower(this, 4)">1</div>
-                    <div style="position:absolute;bottom:-25px;font-size:0.5rem;color:#64748b;font-weight:900">${i18n[currentLang].colNames[i]}</div>
                 `;
                 grid.appendChild(col);
             }
@@ -392,7 +496,10 @@
             check();
         }
 
-        function resetAbacus() { document.querySelectorAll('.bead').forEach(b => b.classList.remove('active')); updateVal(); }
+        function resetAbacus() { 
+            document.querySelectorAll('.bead').forEach(b => b.classList.remove('active')); 
+            updateVal(); 
+        }
 
         function updateVal() {
             let total = 0n;
@@ -423,8 +530,10 @@
         }
 
         function check() {
+            const currentVal = updateVal();
             if(targetNum === null) return;
-            if(updateVal() === targetNum) {
+            
+            if(currentVal === targetNum) {
                 clearInterval(timerInterval);
                 const isAuto = systemMode === 'auto';
                 let milestone = false;
@@ -449,21 +558,21 @@
 
         function showModal(type) {
             const m = document.getElementById('universalModal');
+            const t = i18n[currentLang];
             const icon = document.getElementById('modalIcon');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             const footer = document.getElementById('modalFooter');
-            const t = i18n[currentLang];
 
             body.innerHTML = ''; footer.innerHTML = '';
 
             if(type === 'success') {
                 icon.innerText = "🌟"; title.innerText = t.success;
-                footer.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="w-full bg-emerald-600 p-4 rounded-xl font-bold">${t.next}</button>`;
+                footer.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="w-full bg-emerald-600 p-4 rounded-xl font-bold hover:brightness-110 transition-all"><span>${t.next}</span></button>`;
             } else if(type === 'milestone') {
                 icon.innerText = "💎"; title.innerText = t.milestone;
                 body.innerHTML = `<p class="text-xl text-amber-400 font-bold">${currentLang === 'ar' ? 'المستوى' : 'Level'} ${autoLevel - 1}</p>`;
-                footer.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="w-full bg-amber-600 p-4 rounded-xl font-bold">${t.next}</button>`;
+                footer.innerHTML = `<button onclick="closeModal(); generateChallenge();" class="w-full bg-amber-600 p-4 rounded-xl font-bold"><span>${t.next}</span></button>`;
             } 
             m.style.display = 'flex';
         }
@@ -474,9 +583,9 @@
             document.getElementById('modalIcon').innerText = "🔄";
             document.getElementById('modalTitle').innerText = t.resetTitle;
             document.getElementById('modalBody').innerHTML = `
-                <button onclick="handleReset('levels')" class="w-full p-4 bg-slate-800 rounded-xl mb-2 font-bold">${t.resetLevels}</button>
-                <button onclick="handleReset('history')" class="w-full p-4 bg-slate-800 rounded-xl mb-2 font-bold text-amber-500">${t.clearHistory}</button>
-                <button onclick="handleReset('all')" class="w-full p-4 bg-slate-800 rounded-xl font-bold text-rose-500">${t.resetAll}</button>
+                <button onclick="handleReset('levels')" class="animated-modal-btn"><span>${t.resetLevels}</span></button>
+                <button onclick="handleReset('history')" class="animated-modal-btn text-amber-500"><span>${t.clearHistory}</span></button>
+                <button onclick="handleReset('all')" class="animated-modal-btn text-rose-500"><span>${t.resetAll}</span></button>
             `;
             document.getElementById('modalFooter').innerHTML = `<button onclick="closeModal()" class="w-full bg-slate-700 p-3 rounded-xl font-bold">${t.cancel}</button>`;
             m.style.display = 'flex';
@@ -484,6 +593,7 @@
         }
 
         function handleReset(mode) {
+            playTone(200, 'square', 0.1, 0.05);
             if(mode === 'levels') { autoLevel = 1; localStorage.setItem('ab_alvl', 1); }
             else if(mode === 'history') { solvedHistory = []; localStorage.setItem('ab_hist', "[]"); }
             else if(mode === 'all') { localStorage.clear(); location.reload(); return; }
@@ -499,18 +609,18 @@
             body.innerHTML = '';
             
             if(solvedHistory.length === 0) {
-                body.innerHTML = `<p class="text-center py-10 opacity-50">No Data</p>`;
+                body.innerHTML = `<p class="text-center py-10 opacity-50">${currentLang === 'ar' ? 'لا توجد بيانات' : 'No Data'}</p>`;
             } else {
                 solvedHistory.forEach(h => {
                     body.innerHTML += `
-                        <div class="bg-slate-900/50 p-3 rounded-xl mb-2 flex justify-between items-center">
+                        <div class="bg-slate-900/50 p-3 rounded-xl mb-2 flex justify-between items-center transform transition-transform hover:scale-[1.02] border-l-4 border-amber-500">
                             <span class="text-amber-400 font-black">#${h.n}</span>
                             <span class="text-[10px] opacity-60">${h.t}s | ${h.d}</span>
                         </div>
                     `;
                 });
             }
-            document.getElementById('modalFooter').innerHTML = `<button onclick="closeModal()" class="w-full bg-slate-700 p-3 rounded-xl font-bold">X</button>`;
+            document.getElementById('modalFooter').innerHTML = `<button onclick="closeModal()" class="w-full bg-slate-700 p-3 rounded-xl font-bold">${currentLang === 'ar' ? 'إغلاق' : 'Close'}</button>`;
             m.style.display = 'flex';
             if(isFabOpen) toggleFab();
         }
